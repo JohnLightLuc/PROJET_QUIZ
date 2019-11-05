@@ -7,6 +7,6 @@ from . import views
 
 app_name = 'siteapp'
 urlpatterns = [
-    path('', views.home, name='home'),
+    path('', views.index, name='index'),
 
 ]
