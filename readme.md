@@ -99,7 +99,7 @@ class FirstSectionIndex(Timemodels):
 
     # TODO: Define fields here
     image = models.ImageField(upload_to='first_section',)
-    titre = models.CharField(max_length=50)
+    titre = HTMLField('Content',null=True)
     action = models.CharField(max_length=50)
 
 
@@ -114,7 +114,7 @@ class SecondSectionIndex(Timemodels):
 
     # TODO: Define fields here
     image = models.ImageField(upload_to='first_section',)
-    titre = models.CharField(max_length=50)
+    titre = HTMLField('Content',null=True)
     action = models.CharField(max_length=50)
     nom_cours = models.CharField(max_length=50)
     nombre_cours = models.PositiveIntegerField()
@@ -155,20 +155,40 @@ class FirstSection(Timemodels):
 
 # quiz app
 
+class Level(Timemodels):
+    """Model definition for Level."""
+
+    # TODO: Define fields here
+    nom = models.CharField(max_length=50)
+    description = HTMLField('Content',null=True)
+    image = models.ImageField(upload_to='leve_image',)
+
+    class Meta:
+        """Meta definition for Level."""
+
+        verbose_name = 'Level'
+        verbose_name_plural = 'Levels'
+
+
+
+
 class Quiz(models.Model):
     """Model definition for Quiz."""
 
     # TODO: Define fields here
     titre = models.CharField(max_length=50)
-    description = models.TextField()
+    description = HTMLField('Content',null=True)
     level = models.ForeignKey(Level, on_delete=models.CASCADE, related_name='levels')
+    image = models.ImageField(upload_to='quiz_image',)
     max_question = models.PositiveIntegerField()
     correction = models.BooleanField(default=False)
     single_tentative = models.BooleanField(default=True)
     result_tentative = models.BooleanField()
     pourcentage_requis = models.SmallIntegerField()
-    success_text = models.TextField()
-    fail_text = models.TextField()
+    date_debut = models.DateTimeField(auto_now=False, auto_now_add=False)
+    duree = models.DurationField()
+    success_text = HTMLField('Content',null=True)
+    fail_text = HTMLField('Content',null=True)
     status = models.BooleanField(default=True)
     date_add = models.DateTimeField(auto_now_add=True)
     date_upd = models.DateTimeField(auto_now=True,)
@@ -189,9 +209,10 @@ class Question(models.Model):
 
     # TODO: Define fields here
     quiz = models.ManyToManyField(Quiz,related_name='quizs')
-    level = models.ForeignKey(Level, on_delete=models.CASCADE, related_name='levels')
     description = models.TextField()
-    contenu = HTMLField('content')
+    image = models.ImageField(upload_to='question_image',)
+    image_quiz = models.ManyToManyField(Image, null=True)
+    contenu = HTMLField('Content',null=True)
     status = models.BooleanField(default=True)
     date_add = models.DateTimeField(auto_now_add=True)
     date_upd = models.DateTimeField(auto_now=True,)
@@ -206,5 +227,26 @@ class Question(models.Model):
         """Unicode representation of Question."""
         return self.description
 
+class Reponse (models.Model):
+    description = models.TextField ()
+    reponse = models.CharField(max_length=200)
+    score = models.IntegerField(default = True )
+    date_add = models.DateTimeField ( auto_now_add = True )
+    date_update = models.DateTimeField ( auto_now = True )
+    statut = models.BooleanField ( default = True )
+    
+    image_reponse = models.ManyToManyField(Image, null=True)
+    question = models.ForeignKey(Question, on_delete = models.CASCADE, related_name = 'question_reponse',)
+
+    status = models.BooleanField(default=True)
+    date_add = models.DateTimeField(auto_now_add=True)
+    date_upd = models.DateTimeField(auto_now=True,)
+
+class Resultat (models.Model):
+    date_add = models.DateTimeField ( auto_now_add = True )
+    date_update = models.DateTimeField ( auto_now = True )
+    statut = models.BooleanField ( default = True )
+    quiz_id = models.ForeignKey('Quiz', on_delete = models.CASCADE, related_name = 'quiz_resultat',)
+    user_id = models.ForeignKey('User', on_delete = models.CASCADE, related_name = 'user',)
 
 ```
