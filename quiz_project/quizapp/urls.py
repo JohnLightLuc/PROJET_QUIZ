@@ -7,6 +7,9 @@ from . import views
 
 app_name = 'quizapp'
 urlpatterns = [
-    #path('', views.home, name='home'),
+    path('', views.courses, name='courses'),
+    path('resultat', views.resultat, name='resultat'),
+    path('quiz', views.quiz, name='quiz'),
+
 
 ]
