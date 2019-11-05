@@ -39,6 +39,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'configapp.apps.ConfigappConfig',
+    'quizapp.apps.QuizappConfig',
+    'siteapp.apps.SiteappConfig',
+
     'django_admin_generator',
     'graphene_django',
     'tinymce',

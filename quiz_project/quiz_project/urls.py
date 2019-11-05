@@ -23,7 +23,7 @@ from filebrowser.sites import site
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('site.urls')),
+    path('', include('siteapp.urls')),
     path('quiz/', include('quizapp.urls')),
     path('config/', include('configapp.urls')),
 
