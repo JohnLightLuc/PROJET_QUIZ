@@ -40,7 +40,7 @@
                     <div class="row align-items-center no-gutters">
                         <div class="col-xl-2 col-lg-2">
                             <div class="logo-img">
-                                <a href="index.html">
+                                <a href="{% url 'siteapp:index' %}">
                                     <img src="/static/img/logo.png" alt="">
                                 </a>
                             </div>
@@ -49,10 +49,10 @@
                             <div class="main-menu  d-none d-lg-block">
                                 <nav>
                                     <ul id="navigation">
-                                        <li><a class="active" href="index.html">home</a></li>
-                                        <li><a href="courses.html">Courses</a></li>
-                                        <li><a href="resultat.html">Resultat</a></li>
-                                        <li><a href="contact.html">Contact</a></li>
+                                        <li><a class="active" href="{% url 'siteapp:index' %}">home</a></li>
+                                        <li><a href="{% url 'quizapp:courses' %}">Courses</a></li>
+                                        <li><a href="{% url 'quizapp:resultat' %}">Resultat</a></li>
+                                        <li><a href="{% url 'quizapp:contact' %}">Contact</a></li>
                                     </ul>
                                 </nav>
                             </div>
