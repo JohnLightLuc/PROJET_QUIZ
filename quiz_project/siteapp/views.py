@@ -6,9 +6,9 @@ from django.shortcuts import render
 def index(request):
     
     data={}
-    return render(request, 'pages/siteapp/home.html',data)
+    return render(request, 'pages/home/home.html',data)
 
 def contact(request):
     
     data={}
-    return render(request, 'pages/siteapp/contact.html',data)
+    return render(request, 'pages/home/contact.html',data)

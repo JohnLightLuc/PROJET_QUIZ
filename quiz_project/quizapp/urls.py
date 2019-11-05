@@ -8,8 +8,8 @@ from . import views
 app_name = 'quizapp'
 urlpatterns = [
     path('', views.courses, name='courses'),
-    path('', views.resultat, name='resultat'),
-    path('', views.quiz, name='quiz'),
+    path('resultat', views.resultat, name='resultat'),
+    path('quiz', views.quiz, name='quiz'),
 
 
 ]
