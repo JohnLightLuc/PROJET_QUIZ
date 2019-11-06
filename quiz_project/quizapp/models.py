@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
-from tinymce import HTMLField
+#from tinymce import HTMLField
 
 # Create your models here.
 
@@ -25,7 +25,7 @@ class Quiz(Timemodels):
     # TODO: Define fields here
     titre = models.CharField(max_length=50)
     description = models.TextField()
-    level = models.ForeignKey(Level, on_delete=models.CASCADE, related_name='levels')
+    level = models.ForeignKey(Level, on_delete=models.CASCADE, related_name='quiz_levels')
     max_question = models.PositiveIntegerField()
     correction = models.BooleanField(default=False)
     single_tentative = models.BooleanField(default=True)
@@ -63,7 +63,7 @@ class Question(Timemodels):
     quiz = models.ManyToManyField(Quiz,related_name='quizs')
     level = models.ForeignKey(Level, on_delete=models.CASCADE, related_name='levels')
     description = models.TextField()
-    contenu = HTMLField('content')
+    #contenu = HTMLField('content')
     image_question = models.ManyToManyField(Image_test)
     
 
@@ -81,7 +81,7 @@ class Reponse (Timemodels):
     description = models.TextField ()
     reponse = models.CharField(max_length=200)
     score = models.IntegerField(default = True )
-    image_reponse = models.ManyToManyField(Image_test, null=True)
+    image_reponse = models.ManyToManyField(Image_test)
     question = models.ForeignKey(Question, on_delete = models.CASCADE, related_name = 'question_reponse',)
 
     class Meta:
@@ -92,4 +92,4 @@ class Reponse (Timemodels):
 
 class Resultat (Timemodels):
     quiz_id = models.ForeignKey('Quiz', on_delete = models.CASCADE, related_name = 'quiz_resultat',)
-    user_id = models.ForeignKey('User', on_delete = models.CASCADE, related_name = 'user',)
+    user_id = models.ForeignKey(User, on_delete = models.CASCADE, related_name = 'user',)
