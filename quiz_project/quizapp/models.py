@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
-#from tinymce import HTMLField
+from tinymce import HTMLField
 
 # Create your models here.
 
@@ -63,7 +63,7 @@ class Question(Timemodels):
     quiz = models.ManyToManyField(Quiz,related_name='quizs')
     level = models.ForeignKey(Level, on_delete=models.CASCADE, related_name='levels')
     description = models.TextField()
-    #contenu = HTMLField('content')
+    contenu = HTMLField('content')
     image_question = models.ManyToManyField(Image_test)
     
 
