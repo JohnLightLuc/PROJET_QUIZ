@@ -25,14 +25,14 @@ class ExtendedConnection(Connection):
 
 
 
-class TimemodelsNode(DjangoObjectType):
-    class Meta:
-        model = Timemodels
-        filter_fields = ['date_add', 'date_update','statut']
+# class TimemodelsNode(DjangoObjectType):
+#     class Meta:
+#         model = Timemodels
+#         filter_fields = ['date_add', 'date_update','statut']
    
       
-        interfaces = (relay.Node, )
-        connection_class = ExtendedConnection
+#         interfaces = (relay.Node, )
+#         connection_class = ExtendedConnection
 
 class LevelNode(DjangoObjectType):
     class Meta:
@@ -168,27 +168,27 @@ class ResultatNode(DjangoObjectType):
    
 
 class Query(ObjectType):
-    Timemodels = relay.Node.Field(TimemodelsNode)
+    # Timemodels = relay.Node.Field(TimemodelsNode)
     # all_Timemodels = DjangoFilterConnectionField(TimemodelsNode)
     
     Level = relay.Node.Field(LevelNode)
-    # all_Levels = DjangoFilterConnectionField(LevelNode)
+    all_Levels = DjangoFilterConnectionField(LevelNode)
 
     Quiz = relay.Node.Field(QuizNode)
-    # all_Quizs = DjangoFilterConnectionField(QuizNode)
+    all_Quizs = DjangoFilterConnectionField(QuizNode)
 
     Image_test = relay.Node.Field(Image_testNode)
-    # all_Image_tests = DjangoFilterConnectionField(Image_testNode)
+    all_Image_tests = DjangoFilterConnectionField(Image_testNode)
 
 
     Question = relay.Node.Field(QuestionNode)
-    # all_Questions = DjangoFilterConnectionField(QuestionNode)
+    all_Questions = DjangoFilterConnectionField(QuestionNode)
     
     Reponse = relay.Node.Field(ReponseNode)
-    # all_Reponse = DjangoFilterConnectionField(ReponseNode)
+    all_Reponse = DjangoFilterConnectionField(ReponseNode)
     
     Resultat = relay.Node.Field(ResultatNode)
-    # all_Resultat = DjangoFilterConnectionField(ResultatNode)
+    all_Resultat = DjangoFilterConnectionField(ResultatNode)
 
     
 # class Mutation(graphene.ObjectType):
