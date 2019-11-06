@@ -52,7 +52,7 @@ class SecondSectionIndexNode(DjangoObjectType):
         #         ('date_add','date_add'),
         #         ('vues','vues'),
         #     )
-        )
+        # )
         interfaces = (relay.Node, )
         connection_class = ExtendedConnection
 
