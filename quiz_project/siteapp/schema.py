@@ -79,7 +79,7 @@ class ContactNode(DjangoObjectType):
             'email':['exact',],
             'subject':['exact',],
             'subject':['exact',],
-            
+
         }
         interfaces = (relay.Node, )
 
@@ -335,3 +335,20 @@ class UpdateGeolocalisation(graphene.Mutation):
             geolocalisation_instance.save()
             return UpdateGeolocalisation(ok=ok, actor=geolocalisation_instance)
         return UpdateGeolocalisation(ok=ok, actor=None)
+
+
+class Mutation(graphene.ObjectType):
+    create_nan = CreateNan.Field()
+    update_nan = UpdateNan.Field()
+
+    create_social = CreateSocial.Field()
+    update_social = UpdateSocial.Field()
+
+    create_newsletter = CreateNewsletter.Field()
+    update_newsletter = UpdateNewsletter.Field()
+
+    create_contact = CreateContact.Field()
+    update_contact = UpdateContact.Field()
+
+    create_geolocalisation = CreateGeolocalisation.Field()
+    update_geolocalisation = UpdateGeolocalisation.Field()

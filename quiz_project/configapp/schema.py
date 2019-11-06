@@ -285,4 +285,19 @@ class UpdateFirstSection(graphene.Mutation):
         return UpdateFirstSection(ok=ok, firstSection=None)
 
 
+class Mutation(graphene.ObjectType):
+    create_firstSectionIndex = CreateFirstSectionIndex.Field()
+    update_firstSectionIndex = UpdateFirstSectionIndex.Field()
+
+    create_secondSectionIndex = CreateSecondSectionIndex.Field()
+    update_secondSectionIndex = UpdateSecondSectionIndex.Field()
+
+    create_newsletter = CreateNewsletter.Field()
+    update_newsletter = UpdateNewsletter.Field()
+
+    create_firstSection = CreateFirstSection.Field()
+    update_firstSection = UpdateFirstSection.Field()
+
+
+
 
