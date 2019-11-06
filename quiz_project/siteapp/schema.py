@@ -5,7 +5,7 @@ from graphene_django import DjangoObjectType
 from graphene_django.filter import DjangoFilterConnectionField
 from django_filters import FilterSet, OrderingFilter
 from django.contrib.auth.models import User
-from comptesApp.schema import UserType
+#from comptesApp.schema import UserType
 
 from .models import *
 

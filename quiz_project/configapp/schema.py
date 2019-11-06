@@ -114,14 +114,14 @@ class FirstSectionIndexInput(graphene.InputObjectType):
     id = graphene.ID()
     image = graphene.String()
     titre = graphene.String()
-    action = graphene..String()
+    action = graphene.String()
 
 
 class SecondSectionIndexInput(graphene.InputObjectType):
     id = graphene.ID()
     image = graphene.String()
     titre = graphene.String()
-    nom_cours = graphene..String()
+    nom_cours = graphene.String()
     nombre_cours = graphene.Int()
 
 

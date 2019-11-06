@@ -238,7 +238,7 @@ class ReponseInput(graphene.InputObjectType):
     
 
 # Create mutations for Level
-class CreateActor(graphene.Mutation):
+class CreateLevel(graphene.Mutation):
     class Arguments:
         input = LevelInput(required=True)
 
