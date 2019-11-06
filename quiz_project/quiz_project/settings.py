@@ -46,8 +46,8 @@ INSTALLED_APPS = [
     'django_admin_generator',
     'graphene_django',
     'tinymce',
-    'django_filters',
     'filebrowser',
+    'django_filters',
 ]
 
 MIDDLEWARE = [
