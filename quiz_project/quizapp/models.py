@@ -17,6 +17,10 @@ class Timemodels(models.Model):
 class Level(Timemodels):
     nom = models.CharField(max_length=100)
     description = models.TextField()
+    
+    def __str__(self):
+        """Unicode representation of Level."""
+        return self.nom
 
 
 class Quiz(Timemodels):
