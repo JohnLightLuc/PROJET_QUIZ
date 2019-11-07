@@ -5,104 +5,105 @@ from graphene_django import DjangoObjectType
 from graphene_django.filter import DjangoFilterConnectionField
 from django_filters import FilterSet, OrderingFilter
 from django.contrib.auth.models import User
-from comptesApp.schema import UserType
+#from comptesApp.schema import UserType
 
 from .models import *
 
-# Graphene will automatically map the Article model's fields onto the ArticleNode.
-# This is configured in the ArticleNode's Meta class (as you can see below)
-class ExtendedConnection(Connection):
-    class Meta:
-        abstract = True
-
-    total_count = Int()
-    edge_count = Int()
-
-    def resolve_total_count(root, info, **kwargs):
-        return root.length
-    def resolve_edge_count(root, info, **kwargs):
-        return len(root.edges)
 
 
-
-
-class FirstSectionIndexNode(DjangoObjectType):
+# Create a GraphQL type for  models
+class FirstSectionIndexType(DjangoObjectType):
     class Meta:
         model = FirstSectionIndex
-        # Allow for some more advanced filtering here
-        filter_fields = {
-            'nom': ['exact', 'icontains', 'istartswith'],
-            'action':['exact','icontains', 'istartswith'],
-            
-        }
-        interfaces = (relay.Node, )
 
-
-class SecondSectionIndexNode(DjangoObjectType):
+class SecondSectionIndexType(DjangoObjectType):
     class Meta:
         model = SecondSectionIndex
-        filter_fields = {
-            'titre': ['exact', 'icontains', 'istartswith'],
-            'action': ['exact', 'icontains', 'istartswith'],
-            'nom_cours':['exact'],
-            'nombre_cours': ['exact',],
-        }
-        # order_by = OrderingFilter(
-        #     fields=(
-        #         ('date_add','date_add'),
-        #         ('vues','vues'),
-        #     )
-        # )
-        interfaces = (relay.Node, )
-        connection_class = ExtendedConnection
 
 
-
-
-
-
-class NewsletterNode(DjangoObjectType):
+class NewsletterType(DjangoObjectType):
     class Meta:
         model = Newsletter
-        # Allow for some more advanced filtering here
-        filter_fields = {
-            'description': ['exact', 'icontains', 'istartswith'],
-            'titre':['exact',],
-          
-        }
-        interfaces = (relay.Node, )
-        connection_class = ExtendedConnection
 
-
-class FirstSectionNode(DjangoObjectType):
+class FirstSectionType(DjangoObjectType):
     class Meta:
         model = FirstSection
-        # Allow for some more advanced filtering here
-        filter_fields = {
-            'titre':['exact',],
-          
-        }
-        interfaces = (relay.Node, )
-        connection_class = ExtendedConnection
 
-
-
+# Create a Query type
 class Query(ObjectType):
-    FirstSectionIndex = relay.Node.Field(FirstSectionIndexNode)
-    all_FirstSectionIndexs = DjangoFilterConnectionField(FirstSectionIndexNode)
+    firstSectionIndex = graphene.Field(FirstSectionIndexType, id=graphene.Int())
+    firstSectionIndexs = graphene.List(FirstSectionIndexType)
+
+    secondSectionIndex = graphene.Field(SecondSectionIndexType, id=graphene.Int())
+    secondSectionIndexs = graphene.List(SecondSectionIndexType)
+
+    newsletter = graphene.Field(NewsletterType, id=graphene.Int())
+    newsletters= graphene.List(NewsletterType)
+
+    firstSection = graphene.Field(FirstSectionType, id=graphene.Int())
+    firstSections= graphene.List(FirstSectionType)
+
+    def resolve_firstSectionIndex(self, info, **kwargs):
+        id = kwargs.get('id')
+
+        if id is not None:
+            return FirstSectionIndex.objects.get(pk=id)
+
+        return None
+
+    def resolve_secondSectionIndex(self, info, **kwargs):
+        id = kwargs.get('id')
+
+        if id is not None:
+            return SecondSectionIndex.objects.get(pk=id)
+
+        return None
+
+    def resolve_newsletter(self, info, **kwargs):
+        id = kwargs.get('id')
+
+        if id is not None:
+            return Newsletter.objects.get(pk=id)
+
+        return None
+
+    def resolve_firstSection(self, info, **kwargs):
+        id = kwargs.get('id')
+
+        if id is not None:
+            return FirstSection.objects.get(pk=id)
+
+        return None
+
+    def resolve_firstSectionIndexs(self, info, **kwargs):
+        return FirstSectionIndex.objects.all() 
+
+    def resolve_SecondSectionIndexs(self, info, **kwargs):
+        return SecondSectionIndex.objects.all()
+
+    def resolve_newsletters(self, info, **kwargs):
+        return Newsletter.objects.all()
+
+    def resolve_firstSections(self, info, **kwargs):
+        return FirstSection.objects.all()
+
+
+# class Query(ObjectType):
+#     FirstSectionIndex = relay.Node.Field(FirstSectionIndexNode)
+#     all_FirstSectionIndexs = DjangoFilterConnectionField(FirstSectionIndexNode)
     
-    SecondSectionIndex = relay.Node.Field(SecondSectionIndexNode)
-    all_SecondSectionIndexs = DjangoFilterConnectionField(SecondSectionIndexNode)
+#     SecondSectionIndex = relay.Node.Field(SecondSectionIndexNode)
+#     all_SecondSectionIndexs = DjangoFilterConnectionField(SecondSectionIndexNode)
 
-    Newsletter = relay.Node.Field(NewsletterNode)
-    all_Newsletters = DjangoFilterConnectionField(NewsletterNode)
+#     Newsletter = relay.Node.Field(NewsletterNode)
+#     all_Newsletters = DjangoFilterConnectionField(NewsletterNode)
 
-    Commentaire = relay.Node.Field(CommentaireNode)
-    all_Commentaires = DjangoFilterConnectionField(CommentaireNode)
+#     Commentaire = relay.Node.Field(CommentaireNode)
+#     all_Commentaires = DjangoFilterConnectionField(CommentaireNode)
 
 
-    FirstSection = relay.Node.Field(FirstSectionNode)
-    all_FirstSections = DjangoFilterConnectionField(FirstSectionNode)
+#     FirstSection = relay.Node.Field(FirstSectionNode)
+#     all_FirstSections = DjangoFilterConnectionField(FirstSectionNode)
     
     
 # class Mutation(graphene.ObjectType):
@@ -128,7 +129,7 @@ class SecondSectionIndexInput(graphene.InputObjectType):
 class NewsletterInput(graphene.InputObjectType):
     id = graphene.ID()
     titre = graphene.String()
-    description = graphene..String()
+    description = graphene.String()
 
 
 class FirstSectionInput(graphene.InputObjectType):
@@ -141,7 +142,7 @@ class CreateFirstSectionIndex(graphene.Mutation):
         input = FirstSectionIndexInput(required=True)
 
     ok = graphene.Boolean()
-    firstSectionIndex = graphene.Field(FirstSectionIndexNode)
+    firstSectionIndex = graphene.Field(FirstSectionIndexType)
 
     @staticmethod
     def mutate(root, info, input=None):
@@ -157,7 +158,7 @@ class UpdateFirstSectionIndex(graphene.Mutation):
         input = FirstSectionIndexInput(required=True)
 
     ok = graphene.Boolean()
-    firstSectionIndex = graphene.Field(FirstSectionIndexNode)
+    firstSectionIndex = graphene.Field(FirstSectionIndexType)
 
     @staticmethod
     def mutate(root, info, id, input=None):
@@ -179,7 +180,7 @@ class CreateSecondSectionIndex(graphene.Mutation):
         input = SecondSectionIndexInput(required=True)
 
     ok = graphene.Boolean()
-    secondSectionIndexInput = graphene.Field(SecondSectionIndexNode)
+    secondSectionIndexInput = graphene.Field(SecondSectionIndexType)
 
     @staticmethod
     def mutate(root, info, input=None):
@@ -195,7 +196,7 @@ class UpdateSecondSectionIndex(graphene.Mutation):
         input = SecondSectionIndexInput(required=True)
 
     ok = graphene.Boolean()
-    secondSectionIndex = graphene.Field(SecondSectionIndexNode)
+    secondSectionIndex = graphene.Field(SecondSectionIndexType)
 
     @staticmethod
     def mutate(root, info, id, input=None):
@@ -219,7 +220,7 @@ class CreateNewsletter(graphene.Mutation):
         input = NewsletterInput(required=True)
 
     ok = graphene.Boolean()
-    newsletter = graphene.Field(NewsletterNode)
+    newsletter = graphene.Field(NewsletterType)
 
     @staticmethod
     def mutate(root, info, input=None):
@@ -235,7 +236,7 @@ class UpdateNewsletter(graphene.Mutation):
         input = NewsletterInput(required=True)
 
     ok = graphene.Boolean()
-    newsletter = graphene.Field(NewsletterNode)
+    newsletter = graphene.Field(NewsletterType)
 
     @staticmethod
     def mutate(root, info, id, input=None):
@@ -255,13 +256,13 @@ class CreateFirstSection(graphene.Mutation):
         input = FirstSectionInput(required=True)
 
     ok = graphene.Boolean()
-    firstSection = graphene.Field(FirstSectionNode)
+    firstSection = graphene.Field(FirstSectionType)
 
     @staticmethod
     def mutate(root, info, input=None):
         ok = True
         firstSection_instance = FirstSection(titre=input.titre)
-        irstSection_instance.save()
+        firstSection_instance.save()
         return CreateFirstSection(ok=ok, firstSection=firstSection_instance)
 
 
@@ -271,7 +272,7 @@ class UpdateFirstSection(graphene.Mutation):
         input = FirstSectionInput(required=True)
 
     ok = graphene.Boolean()
-    firstSection = graphene.Field(FirstSectionNode)
+    firstSection = graphene.Field(FirstSectionType)
 
     @staticmethod
     def mutate(root, info, id, input=None):

@@ -29,6 +29,7 @@ urlpatterns = [
     path('', include('siteapp.urls')),
     path('quiz/', include('quizapp.urls')),
     path('config/', include('configapp.urls')),
+    path('administration/', include('administration.urls')),
 
     path('tinymce/', include('tinymce.urls')),
     path('admin/filebrowser/', site.urls),

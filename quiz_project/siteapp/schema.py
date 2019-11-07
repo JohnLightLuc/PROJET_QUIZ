@@ -9,107 +9,191 @@ from django.contrib.auth.models import User
 
 from .models import *
 
-# Graphene will automatically map the Article model's fields onto the ArticleNode.
-# This is configured in the ArticleNode's Meta class (as you can see below)
-class ExtendedConnection(Connection):
-    class Meta:
-        abstract = True
+# # Graphene will automatically map the Article model's fields onto the ArticleNode.
+# # This is configured in the ArticleNode's Meta class (as you can see below)
+# class ExtendedConnection(Connection):
+#     class Meta:
+#         abstract = True
 
-    total_count = Int()
-    edge_count = Int()
+#     total_count = Int()
+#     edge_count = Int()
 
-    def resolve_total_count(root, info, **kwargs):
-        return root.length
-    def resolve_edge_count(root, info, **kwargs):
-        return len(root.edges)
+#     def resolve_total_count(root, info, **kwargs):
+#         return root.length
+#     def resolve_edge_count(root, info, **kwargs):
+#         return len(root.edges)
 
+# class NanNode(DjangoObjectType):
+#     class Meta:
+#         model = Nan
+#         filter_fields = {
+#             'nom': ['exact', 'icontains', 'istartswith'],
+#             'adresse':['exact'],
+#             'numero': ['exact',],
+#             'email': ['exact'],
+#         }
+#         # order_by = OrderingFilter(
+#         #     fields=(
+#         #         ('date_add','date_add'),
+#         #         ('vues','vues'),
+#         #     )
+#         # )
+#         interfaces = (relay.Node, )
+#         connection_class = ExtendedConnection
 
-
-
-class NanNode(DjangoObjectType):
-    class Meta:
-        model = Nan
-        filter_fields = {
-            'nom': ['exact', 'icontains', 'istartswith'],
-            'adresse':['exact'],
-            'numero': ['exact',],
-            'email': ['exact'],
-        }
-        # order_by = OrderingFilter(
-        #     fields=(
-        #         ('date_add','date_add'),
-        #         ('vues','vues'),
-        #     )
-        # )
-        interfaces = (relay.Node, )
-        connection_class = ExtendedConnection
-
-
-
-
-
-
-class SocialNode(DjangoObjectType):
-    class Meta:
-        model = Social
-        # Allow for some more advanced filtering here
-        filter_fields = {
-            'facebook':['exact',],
-            'twitter':['exact',],
-            'instagram':['exact',],
-            'youtube':['exact',],
+# class SocialNode(DjangoObjectType):
+#     class Meta:
+#         model = Social
+#         # Allow for some more advanced filtering here
+#         filter_fields = {
+#             'facebook':['exact',],
+#             'twitter':['exact',],
+#             'instagram':['exact',],
+#             'youtube':['exact',],
           
-        }
-        interfaces = (relay.Node, )
-        connection_class = ExtendedConnection
+#         }
+#         interfaces = (relay.Node, )
+#         connection_class = ExtendedConnection
 
-class NewsletterNode(DjangoObjectType):
-    class Meta:
-        model = Social
-        # Allow for some more advanced filtering here
-        filter_fields = ['email']
-        interfaces = (relay.Node, )
+# class NewsletterNode(DjangoObjectType):
+#     class Meta:
+#         model = Social
+#         # Allow for some more advanced filtering here
+#         filter_fields = ['email']
+#         interfaces = (relay.Node, )
 
-class ContactNode(DjangoObjectType):
-    class Meta:
-        model = Contact
-        # Allow for some more advanced filtering here
-        filter_fields = {
-            'nom': ['exact', 'icontains', 'istartswith'],
-            'email':['exact',],
-            'subject':['exact',],
-            'subject':['exact',],
+# class ContactNode(DjangoObjectType):
+#     class Meta:
+#         model = Contact
+#         # Allow for some more advanced filtering here
+#         filter_fields = {
+#             'nom': ['exact', 'icontains', 'istartswith'],
+#             'email':['exact',],
+#             'subject':['exact',],
+#             'subject':['exact',],
 
-        }
-        interfaces = (relay.Node, )
+#         }
+#         interfaces = (relay.Node, )
 
 
-class GeolocalisationNode(DjangoObjectType):
-    class Meta:
-        model = Geolocalisation
-        # Allow for some more advanced filtering here
-        filter_fields = {
-            'latitude':['exact',],
-            'longitude':['exact',],
-            'url':['exact',],
+# class GeolocalisationNode(DjangoObjectType):
+#     class Meta:
+#         model = Geolocalisation
+#         # Allow for some more advanced filtering here
+#         filter_fields = {
+#             'latitude':['exact',],
+#             'longitude':['exact',],
+#             'url':['exact',],
 
           
-        }
-        interfaces = (relay.Node, )
-        connection_class = ExtendedConnection
+#         }
+#         interfaces = (relay.Node, )
+#         connection_class = ExtendedConnection
 
 # Mr Toure faites la mutation des modeles newsletter et contact
 
+# Create a GraphQL type for the  models
+class NanType(DjangoObjectType):
+    class Meta:
+        model = Nan
+
+class SocialType(DjangoObjectType):
+    class Meta:
+        model = Social
+
+class NewsletterType(DjangoObjectType):
+    class Meta:
+        model = Newsletter
+
+class ContactType(DjangoObjectType):
+    class Meta:
+        model = Contact
+    
+class GeolocalisationType(DjangoObjectType):
+    class Meta:
+        model = Geolocalisation
 
 class Query(ObjectType):
-    Nan = relay.Node.Field(NanNode)
-    all_Nans = DjangoFilterConnectionField(NanNode)
-    
-    Social = relay.Node.Field(SocialNode)
-    all_Socials = DjangoFilterConnectionField(SocialNode)
+    nan = graphene.Field(NanType, id=graphene.Int())
+    social = graphene.Field(SocialType, id=graphene.Int())
+    newsletter = graphene.Field(NewsletterType, id=graphene.Int())
+    contact = graphene.Field(ContactType, id=graphene.Int())
+    geolocalisation = graphene.Field(GeolocalisationType, id=graphene.Int())
 
-    Geolocalisation = relay.Node.Field(GeolocalisationNode)
-    all_Geolocalisations = DjangoFilterConnectionField(GeolocalisationNode)
+    nans = graphene.List(NanType)
+    socials = graphene.List(SocialType)
+    newsletters = graphene.List(NewsletterType)
+    contacts = graphene.List(ContactType)
+    geolocalisations = graphene.List(GeolocalisationType)
+
+
+    def resolve_nan(self, info, **kwargs):
+        id = kwargs.get('id')
+
+        if id is not None:
+            return Nan.objects.get(pk=id)
+
+        return None
+
+    def resolve_social(self, info, **kwargs):
+        id = kwargs.get('id')
+
+        if id is not None:
+            return Social.objects.get(pk=id)
+
+        return None
+
+    def resolve_newsletter(self, info, **kwargs):
+        id = kwargs.get('id')
+
+        if id is not None:
+            return Newsletter.objects.get(pk=id)
+
+        return None
+
+    def resolve_contact(self, info, **kwargs):
+        id = kwargs.get('id')
+
+        if id is not None:
+            return Contact.objects.get(pk=id)
+
+        return None
+
+    def resolve_geolocalisation(self, info, **kwargs):
+        id = kwargs.get('id')
+
+        if id is not None:
+            return Geolocalisation.objects.get(pk=id)
+
+        return None
+
+    def resolve_nans(self, info, **kwargs):
+        return Nan.objects.all()
+
+    def resolve_socials(self, info, **kwargs):
+        return Social.objects.all()
+
+    def resolve_newsletters(self, info, **kwargs):
+        return Newsletter.objects.all()
+
+    def resolve_contacts(self, info, **kwargs):
+        return Contact.objects.all()
+
+    def resolve_geolocalisations(self, info, **kwargs):
+        return Geolocalisation.objects.all()
+
+
+
+
+# class Query(ObjectType):
+#     Nan = relay.Node.Field(NanNode)
+#     all_Nans = DjangoFilterConnectionField(NanNode)
+    
+#     Social = relay.Node.Field(SocialNode)
+#     all_Socials = DjangoFilterConnectionField(SocialNode)
+
+#     Geolocalisation = relay.Node.Field(GeolocalisationNode)
+#     all_Geolocalisations = DjangoFilterConnectionField(GeolocalisationNode)
 
     
 # class Mutation(graphene.ObjectType):
@@ -158,7 +242,7 @@ class CreateNan(graphene.Mutation):
         input = NanInput(required=True)
 
     ok = graphene.Boolean()
-    nan = graphene.Field(NanNode)
+    nan = graphene.Field(NanType)
 
     @staticmethod
     def mutate(root, info, input=None):
@@ -173,7 +257,7 @@ class UpdateNan(graphene.Mutation):
         input = NanInput(required=True)
 
     ok = graphene.Boolean()
-    nan = graphene.Field(NanNode)
+    nan = graphene.Field(NanType)
 
     @staticmethod
     def mutate(root, info, id, input=None):
@@ -197,7 +281,7 @@ class CreateSocial(graphene.Mutation):
         input = SocialInput(required=True)
 
     ok = graphene.Boolean()
-    social = graphene.Field(SocialNode)
+    social = graphene.Field(SocialType)
 
     @staticmethod
     def mutate(root, info, input=None):
@@ -212,7 +296,7 @@ class UpdateSocial(graphene.Mutation):
         input = SocialInput(required=True)
 
     ok = graphene.Boolean()
-    social = graphene.Field(SocialNode)
+    social = graphene.Field(SocialType)
 
     @staticmethod
     def mutate(root, info, id, input=None):
@@ -234,7 +318,7 @@ class CreateNewsletter(graphene.Mutation):
         input = NewsletterInput(required=True)
 
     ok = graphene.Boolean()
-    newsletter = graphene.Field(NewsletterNode)
+    newsletter = graphene.Field(NewsletterType)
 
     @staticmethod
     def mutate(root, info, input=None):
@@ -249,7 +333,7 @@ class UpdateNewsletter(graphene.Mutation):
         input = NewsletterInput(required=True)
 
     ok = graphene.Boolean()
-    newsletter = graphene.Field(NewsletterNode)
+    newsletter = graphene.Field(NewsletterType)
 
     @staticmethod
     def mutate(root, info, id, input=None):
@@ -269,7 +353,7 @@ class CreateContact(graphene.Mutation):
         input = ContactInput(required=True)
 
     ok = graphene.Boolean()
-    contact = graphene.Field(ContactNode)
+    contact = graphene.Field(ContactType)
 
     @staticmethod
     def mutate(root, info, input=None):
@@ -284,7 +368,7 @@ class UpdateContact(graphene.Mutation):
         input = ContactInput(required=True)
 
     ok = graphene.Boolean()
-    contact = graphene.Field(ContactNode)
+    contact = graphene.Field(ContactType)
 
     @staticmethod
     def mutate(root, info, id, input=None):
@@ -306,7 +390,7 @@ class CreateGeolocalisation(graphene.Mutation):
         input = GeolocalisationInput(required=True)
 
     ok = graphene.Boolean()
-    geolocalisation = graphene.Field(GeolocalisationNode)
+    geolocalisation = graphene.Field(GeolocalisationType)
 
     @staticmethod
     def mutate(root, info, input=None):
@@ -321,7 +405,7 @@ class UpdateGeolocalisation(graphene.Mutation):
         input = GeolocalisationInput(required=True)
 
     ok = graphene.Boolean()
-    geolocalisation = graphene.Field(GeolocalisationNode)
+    geolocalisation = graphene.Field(GeolocalisationType)
 
     @staticmethod
     def mutate(root, info, id, input=None):
