@@ -21,8 +21,8 @@ from django.conf import settings
 from django.conf.urls.static import static
 from filebrowser.sites import site
 
-# from graphene_django.views import GraphQLView
-# from .schema import schema
+from graphene_django.views import GraphQLView
+from quiz_project.schema import schema
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -34,7 +34,7 @@ urlpatterns = [
     path('tinymce/', include('tinymce.urls')),
     path('admin/filebrowser/', site.urls),
 
-    # path("graphql", GraphQLView.as_view(graphiql=True , schema=schema)),
+    path('graphql/', GraphQLView.as_view(graphiql=True)),
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

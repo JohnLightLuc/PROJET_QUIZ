@@ -9,192 +9,119 @@ from django.contrib.auth.models import User
 
 from .models import *
 
-# Graphene will automatically map the Article model's fields onto the ArticleNode.
-# This is configured in the ArticleNode's Meta class (as you can see below)
-class ExtendedConnection(Connection):
-    class Meta:
-        abstract = True
-
-    total_count = Int()
-    edge_count = Int()
-
-    def resolve_total_count(root, info, **kwargs):
-        return root.length
-    def resolve_edge_count(root, info, **kwargs):
-        return len(root.edges)
 
 
-
-# class TimemodelsNode(DjangoObjectType):
-#     class Meta:
-#         model = Timemodels
-#         filter_fields = ['date_add', 'date_update','statut']
-   
-      
-#         interfaces = (relay.Node, )
-#         connection_class = ExtendedConnection
-
-class LevelNode(DjangoObjectType):
+# Create a GraphQL type for the models
+class LevelType(DjangoObjectType):
     class Meta:
         model = Level
-        # Allow for some more advanced filtering here
-        filter_fields = {
-            'nom': ['exact', 'icontains', 'istartswith'],
-            'description':['exact','icontains', 'istartswith'],
-            
-        }
-        interfaces = (relay.Node, )
 
-
-class QuizNode(DjangoObjectType):
+class QuizType(DjangoObjectType):
     class Meta:
         model = Quiz
-        filter_fields = {
-            'titre': ['exact', 'icontains', 'istartswith'],
-            'description': ['exact', 'icontains', 'istartswith'],
-            'max_question':['exact'],
-            'correction': ['exact',],
-            'level': ['exact'],
-            'single_tentative': ['exact'],
-            'result_tentative': ['exact'],
-            'pourcentage_requis': ['exact'],
-            'success_text': ['exact', 'icontains', 'istartswith'],
-            'fail_text': ['exact', 'icontains', 'istartswith'],
 
-
-        }
-        order_by = OrderingFilter(
-            fields=(
-                ('date_add','date_add'),
-            )
-        )
-        interfaces = (relay.Node, )
-        connection_class = ExtendedConnection
-
-
-
-
-
-
-class Image_testNode(DjangoObjectType):
+class Image_testType(DjangoObjectType):
     class Meta:
         model = Image_test
-        # Allow for some more advanced filtering here
-        filter_fields = {
-            'date_update':['exact',],
-            'date_add':['exact',],
-            'statut':['exact',],
 
-
-          
-        }
-        interfaces = (relay.Node, )
-        connection_class = ExtendedConnection
-
-
-class QuestionNode(DjangoObjectType):
+class QuestionType(DjangoObjectType):
     class Meta:
         model = Question
-        # Allow for some more advanced filtering here
-        filter_fields = {
-            'contenu': ['exact', 'icontains', 'istartswith'],
-            'quiz':['exact',],
-            'level':['exact',],
-            # 'image_question':['exact',],
-            'description': ['exact', 'icontains', 'istartswith'],
-          
-        }
-        interfaces = (relay.Node, )
-        connection_class = ExtendedConnection
 
-class ReponseNode(DjangoObjectType):
+class ReponseType(DjangoObjectType):
     class Meta:
-        model = Reponse
-        filter_fields = {
-            'reponse': ['exact', 'icontains', 'istartswith'],
-            'score':['exact',],
-            'question':['exact',],
-            # 'image_question':['exact',],
-            'description': ['exact', 'icontains', 'istartswith'],
-          
-        }
-        interfaces = (relay.Node, )
-        connection_class = ExtendedConnection
+        model = Reponse 
 
-class ResultatNode(DjangoObjectType):
+class ResultatType(DjangoObjectType):
     class Meta:
         model = Resultat
-        filter_fields = {
-            'quiz_id':['exact',],
-            'user_id':['exact',],
-        }
-        interfaces = (relay.Node, )
-        connection_class = ExtendedConnection
 
-
-
-# class ArticleType(DjangoObjectType):
-#     class Meta:
-#         model = Article
-# class CommentaitreType(DjangoObjectType):
-#     class Meta:
-#         model = Commentaire
-# # ...code
-# # Change the CreateLink mutation
-# class ArticleInput(graphene.InputObjectType):
-#     titre = graphene.String()
-# class CommentaireInput(graphene.InputObjectType):
-#     article_id = graphene.Field(ArticleInput)
-#     contenu = graphene.String()
-
-
-# class CreateCommentaire(graphene.Mutation):
-#     commentaitre = graphene.Field(CommentaitreType)
- 
-
-  
-
-
-
-#     class Arguments:
-#         commentaire_data = CommentaireInput(required=True)
-      
-
-#     @staticmethod
-#     def mutate(root, info, commentaire_data , article_id    ):
-#         user = info.context.user or None
-#         commentaire = Commentaire.objects.create(**commentaire_data,username=user )
-#         return CreateCommentaire(commentaitre=commentaitre)
-   
-
+# Create a Query type
 class Query(ObjectType):
-    # Timemodels = relay.Node.Field(TimemodelsNode)
-    # all_Timemodels = DjangoFilterConnectionField(TimemodelsNode)
+    level = graphene.Field(LevelType, id=graphene.Int())
+    quiz = graphene.Field(QuizType, id=graphene.Int())
+    image_test = graphene.Field(Image_testType, id=graphene.Int())
+    question = graphene.Field(QuestionType, id=graphene.Int())
+    reponse = graphene.Field(ReponseType, id=graphene.Int())
+    resultat = graphene.Field(ResultatType, id=graphene.Int())
+
+    levels= graphene.List(LevelType)
+    quizs = graphene.List(QuizType)
+    image_tests= graphene.List(Image_testType)
+    questions= graphene.List(QuestionType)
+    reponses= graphene.List(ReponseType)
+    resultats= graphene.List(ResultatType)
+
+    def resolve_level(self, info, **kwargs):
+        id = kwargs.get('id')
+
+        if id is not None:
+            return Level.objects.get(pk=id)
+
+        return None
+
+    def resolve_quiz(self, info, **kwargs):
+        id = kwargs.get('id')
+
+        if id is not None:
+            return Quiz.objects.get(pk=id)
+
+        return None
+
+    def resolve_image_test(self, info, **kwargs):
+        id = kwargs.get('id')
+
+        if id is not None:
+            return Image_test.objects.get(pk=id)
+
+        return None
+
+    def resolve_question(self, info, **kwargs):
+        id = kwargs.get('id')
+
+        if id is not None:
+            return Question.objects.get(pk=id)
+
+        return None
+
+    def resolve_Reponse(self, info, **kwargs):
+        id = kwargs.get('id')
+
+        if id is not None:
+            return Reponse.objects.get(pk=id)
+
+        return None
+
+    def resolve_Resultat(self, info, **kwargs):
+        id = kwargs.get('id')
+
+        if id is not None:
+            return Resultat.objects.get(pk=id)
+
+        return None
+
+    def resolve_levels(self, info, **kwargs):
+        return Level.objects.all()
+
+    def resolve_quizs(self, info, **kwargs):
+        return Quiz.objects.all()
+
+    def resolve_image_tests(self, info, **kwargs):
+        return Image_test.objects.all()
     
-    Level = relay.Node.Field(LevelNode)
-    all_Levels = DjangoFilterConnectionField(LevelNode)
-
-    Quiz = relay.Node.Field(QuizNode)
-    all_Quizs = DjangoFilterConnectionField(QuizNode)
-
-    Image_test = relay.Node.Field(Image_testNode)
-    all_Image_tests = DjangoFilterConnectionField(Image_testNode)
-
-
-    Question = relay.Node.Field(QuestionNode)
-    all_Questions = DjangoFilterConnectionField(QuestionNode)
+    def resolve_questions(self, info, **kwargs):
+        return Question.objects.all()
     
-    Reponse = relay.Node.Field(ReponseNode)
-    all_Reponse = DjangoFilterConnectionField(ReponseNode)
-    
-    Resultat = relay.Node.Field(ResultatNode)
-    all_Resultat = DjangoFilterConnectionField(ResultatNode)
+    def resolve_Reponses(self, info, **kwargs):
+        return Reponse.objects.all()
 
-    
-# class Mutation(graphene.ObjectType):
-        
-#     create_CreateCommentaire = CreateCommentaire.Field()
-   
+    def resolve_Resultats(self, info, **kwargs):
+        return Resultat.objects.all()
+
+
+
+
+
 # -------------------------------------------------------------------
 
 # Create Input Object Types
@@ -238,19 +165,19 @@ class ReponseInput(graphene.InputObjectType):
     
 
 # Create mutations for Level
-class CreateActor(graphene.Mutation):
+class CreateLevel(graphene.Mutation):
     class Arguments:
         input = LevelInput(required=True)
 
     ok = graphene.Boolean()
-    level = graphene.Field(LevelNode)
+    level = graphene.Field(LevelType)
 
     @staticmethod
     def mutate(root, info, input=None):
         ok = True
         level_instance = Level(nom=input.nom, description=input.description)
         level_instance.save()
-        return CreateActor(ok=ok, level=level_instance)
+        return CreateLevel(ok=ok, level=level_instance)
 
 class UpdateLevel(graphene.Mutation):
     class Arguments:
@@ -258,7 +185,7 @@ class UpdateLevel(graphene.Mutation):
         input = LevelInput(required=True)
 
     ok = graphene.Boolean()
-    level = graphene.Field(LevelNode)
+    level = graphene.Field(LevelType)
 
     @staticmethod
     def mutate(root, info, id, input=None):
@@ -269,7 +196,7 @@ class UpdateLevel(graphene.Mutation):
             level_instance.nom = input.nom
             level_instance.description = input.description
             level_instance.save()
-            return UpdateLevel(ok=ok, actor=level_instance)
+            return UpdateLevel(ok=ok, level=level_instance)
         return UpdateLevel(ok=ok, level=None)
 
 
@@ -279,7 +206,7 @@ class CreateQuiz(graphene.Mutation):
         input = QuizInput(required=True)
 
     ok = graphene.Boolean()
-    quiz = graphene.Field(QuizNode)
+    quiz = graphene.Field(QuizType)
 
     @staticmethod
     def mutate(root, info, input=None):
@@ -313,12 +240,12 @@ class UpdateQuiz(graphene.Mutation):
         input = QuizInput(required=True)
 
     ok = graphene.Boolean()
-    quiz = graphene.Field(QuizNode)
+    quiz = graphene.Field(QuizType)
 
     @staticmethod
     def mutate(root, info, id, input=None):
         ok = False
-        quiz_instance = Movie.objects.get(pk=id)
+        quiz_instance = Quiz.objects.get(pk=id)
         if quiz_instance:
             ok = True
             levels = []
@@ -346,14 +273,14 @@ class CreateImage_test(graphene.Mutation):
         input = Image_testInput(required=True)
 
     ok = graphene.Boolean()
-    image_test = graphene.Field(Image_testNode)
+    image_test = graphene.Field(Image_testType)
 
     @staticmethod
     def mutate(root, info, input=None):
         ok = True
         image_teste_instance = Image_test(image=input.image)
         image_teste_instance.save()
-        return CreateImage(ok=ok, image_test=image_teste_instance)
+        return CreateImage_test(ok=ok, image_test=image_teste_instance)
 
 class UpdateImage_test(graphene.Mutation):
     class Arguments:
@@ -361,12 +288,12 @@ class UpdateImage_test(graphene.Mutation):
         input = Image_testInput(required=True)
 
     ok = graphene.Boolean()
-    image_test = graphene.Field(Image_testNode)
+    image_test = graphene.Field(Image_testType)
 
     @staticmethod
     def mutate(root, info, id, input=None):
         ok = False
-        image_test_instance = Actor.objects.get(pk=id)
+        image_test_instance = Image_test.objects.get(pk=id)
         if image_test_instance:
             ok = True
             image_test_instance.image = input.image
@@ -380,7 +307,7 @@ class CreateQuestion(graphene.Mutation):
         input = QuestionInput(required=True)
 
     ok = graphene.Boolean()
-    question = graphene.Field(QuestionNode)
+    question = graphene.Field(QuestionType)
 
     @staticmethod
     def mutate(root, info, input=None):
@@ -427,7 +354,7 @@ class UpdateQuestion(graphene.Mutation):
         input = QuestionInput(required=True)
 
     ok = graphene.Boolean()
-    question = graphene.Field(QuestionNode)
+    question = graphene.Field(QuestionType)
 
     @staticmethod
     def mutate(root, info, id, input=None):
@@ -476,7 +403,7 @@ class CreateReponse(graphene.Mutation):
         input = ReponseInput(required=True)
 
     ok = graphene.Boolean()
-    reponse = graphene.Field(ReponseNode)
+    reponse = graphene.Field(ReponseType)
 
     @staticmethod
     def mutate(root, info, input=None):
@@ -513,7 +440,7 @@ class UpdateReponse(graphene.Mutation):
         input = ReponseInput(required=True)
 
     ok = graphene.Boolean()
-    reponse = graphene.Field(ReponseNode)
+    reponse = graphene.Field(ReponseType)
 
     @staticmethod
     def mutate(root, info, id, input=None):
