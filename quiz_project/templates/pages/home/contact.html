@@ -8,6 +8,7 @@
             <!-- bradcam_area_end -->
 
     <!-- ================ contact section start ================= -->
+    
     <section class="contact-section">
             <div class="container">
                 <div class="d-none d-sm-block mb-5 pb-4">
@@ -51,13 +52,14 @@
     
                 </div>
     
-    
+                <div id="mycontact">
+                        <button v-on:click="new_contact" >Send</button>
                 <div class="row">
                     <div class="col-12">
                         <h2 class="contact-title">Get in Touch</h2>
                     </div>
                     <div class="col-lg-8">
-                        <form class="form-contact contact_form" action="contact_process.php" method="post" id="contactForm" novalidate="novalidate">
+                        <form class="form-contact contact_form" id="contactForm" novalidate="novalidate">
                             <div class="row">
                                 <div class="col-12">
                                     <div class="form-group">
@@ -66,6 +68,7 @@
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="form-group">
+                                        ${ nom }
                                         <input class="form-control valid" name="name" id="name" type="text" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter your name'" placeholder="Enter your name">
                                     </div>
                                 </div>
@@ -81,7 +84,7 @@
                                 </div>
                             </div>
                             <div class="form-group mt-3">
-                                <button type="submit" class="button button-contactForm boxed-btn">Send</button>
+                                <button v-on:click='new_contact' class="button button-contactForm boxed-btn">Send</button>
                             </div>
                         </form>
                     </div>
@@ -109,8 +112,134 @@
                         </div>
                     </div>
                 </div>
+                </div>
             </div>
+
         </section>
+    
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script>
+      new Vue({
+          el: '#mycontact',
+          data () {
+            return {
+              info: null
+            }
+          },
+          data: {
+            send_data: false,
+            movies: [],
+            actors: [],
+            nom : 'mon nom hein',
+            email: '',
+            sujet: '',
+            message: '',
+            good: false,
+          },
+          delimiters: ["${", "}"],
+          mounted () {
+            //   this.new_contact()
+          }, 
+          methods: {
+            getdata: function () {
+                    axios.defaults.xsrfCookieName = 'csrftoken'
+                    axios.defaults.xsrfHeaderName = 'X-CSRFToken'
+                    axios.post('http://127.0.0.1:8000/graphql/', {
+                      query: `
+                          query{
+                            movies {
+                                id
+                                title
+                                actors {
+                                  id
+                                  name
+                                }
+                              },
+                            actors {
+                              id
+                              name
+                            }
+                          
+                          }
+                          `
+                        }).then(response => {
+                            console.log(response.data.data)
+                            this.movies = response.data.data.movies
+                            this.actors = response.data.data.actors
+                        })
+                        .catch((err) => {
+                            console.log('erreur')
+                           
+                            
+                    })
+                },
+            verif_saisie: function(titre, id, annee){
+              saisi = true
+              if (titre == ''){
+                saisi = false
+              }
+              if (id == ''){
+                saisi = false
+              }
+              if (annee == ''){
+                saisi = false
+              }
+
+              return saisi
+
+            },
+          
+            new_contact: function(){
+                    axios.defaults.xsrfCookieName = 'csrftoken'
+                    axios.defaults.xsrfHeaderName = 'X-CSRFToken'
+                    
+                     axios.post('http://127.0.0.1:8000/graphql/', {
+                     query: `
+                        mutation {
+                            createContact(input:{
+                                nom: "Albert"
+                                email: "nan@gmail.com"
+                                subject : "Mon sujet"
+                                message: "Message"
+                            }) {
+                                ok
+                                contact {
+                                id
+                                email
+                                message
+                                nom
+                                }
+                                
+                            }
+                          }
+                          `
+                        }).then(response => {
+                            console.log(response.data.data)
+                            send_data = true
+                            message = 'Video bien enregistrée'
+                            this.good = true
+                            
+                        })
+                        .catch((err) => {
+                            console.log('erreur')
+                            send_data = true
+                            message = "Probleme d'enregistrement"
+                            this.good = false
+           
+                        })
+                    // }else {
+                    //   send_data = true
+                    //   message = 'Verifiez que toutes les champs sont coreectement saisi !'
+                    //   this.good = false
+                    // }
+      
+                }
+            }
+            
+        })
+    </script>
+  
     <!-- ================ contact section end ================= -->
 {% endblock content %}
     

@@ -31,8 +31,8 @@
     <!--[if lte IE 9]>
             <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience and security.</p>
         <![endif]-->
-
-    <!-- header-start -->
+<div id="myhome">
+    <!-- header-startv-for -->
     <header>
         <div class="header-area ">
             <div id="sticky-header" class="main-header-area">
@@ -65,10 +65,10 @@
                                     <i class="flaticon-user"></i>
                                     <span>log in</span>
                                 </a>
-                                <div class="live_chat_btn">
+                                <div  class="live_chat_btn">
                                     <a class="boxed_btn_orange" href="#">
                                         <i class="fa fa-phone"></i>
-                                        <span>+10 378 467 3672</span>
+                                        <span>${ nan.numero}</span>
                                     </a>
                                 </div>
                             </div>
@@ -101,7 +101,7 @@
                         <div class="footer_widget">
                             <div class="footer_logo">
                                 <a href="#">
-                                    <img src="/static/img/logo.png" alt="">
+                                    <img src="" alt="">
                                 </a>
                             </div>
                             <p>
@@ -109,25 +109,25 @@
                                 Moving in fourth air night bring upon it beast let you dominion likeness open place day
                                 great.
                             </p>
-                            <div class="socail_links">
-                                <ul>
+                            <div  class="socail_links">
+                                <ul >
                                     <li>
-                                        <a href="#">
+                                        <a href=" ${ social.facebook } ">
                                             <i class="ti-facebook"></i>
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="#">
+                                        <a href="${ social.twitter }">
                                             <i class="ti-twitter-alt"></i>
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="#">
+                                        <a href="${ social.instagram }">
                                             <i class="fa fa-instagram"></i>
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="#">
+                                        <a href="${ social.youtube }">
                                             <i class="fa fa-youtube-play"></i>
                                         </a>
                                     </li>
@@ -166,9 +166,9 @@
                                 Address
                             </h3>
                             <p>
-                                200, D-block, Green lane USA <br>
-                                +10 367 467 8934 <br>
-                                edumark@contact.com
+                                ${ nan.adresse } <br>
+                                ${ nan.numero } <br>
+                                ${ nan.email }
                             </p>
                         </div>
                     </div>
@@ -199,7 +199,7 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
             <div class="popup_inner">
                 <div class="logo text-center">
                     <a href="#">
-                        <img src="/static/img/form-logo.png" alt="">
+                        <img src="" alt="">
                     </a>
                 </div>
                 <h3>Sign in</h3>
@@ -267,6 +267,7 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
             </div>
         </div>
     </form>
+ </div>
     <!-- form itself end -->
 
 
@@ -299,58 +300,73 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
 
     <script src="/static/js/main.js"></script>
 
-
-
-
-	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.js"></script>
-    
-
-<script>
-
-    new Vue({
-            el: '#app',
-            data: {
-                isSuccess:false,
-                
-                email:'',
-                messageRes:false,
-                password:'',
-                error:false,
-            },
-            delimiters:[ "${", "}"],
-            mounted(){
-                this.onsubmitLogin;
-            },
-            methods: {
-                
-                onsubmitLogin: function(){
-    
-                    // this.isregister=true;
-    
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script>
+      new Vue({
+          el: '#myhome',
+          data () {
+            return {
+              info: null
+            }
+          },
+          data: {
+            send_data: false,
+            social: [],
+            nan: [],
+            titre : '',
+            id : '',
+            good: false,
+          },
+          delimiters: ["${", "}"],
+          mounted () {
+              this.getdata();
+          }, 
+          methods: {
+            getdata: function () {
                     axios.defaults.xsrfCookieName = 'csrftoken'
                     axios.defaults.xsrfHeaderName = 'X-CSRFToken'
-                    axios.post('http://127.0.0.1:8000/connexion', {
-                        
-                        email: '' + this.email,
-                        password: '' + this.password,
+                    axios.post('http://127.0.0.1:8000/graphql/', {
+                      query: `
+                        query {
+                            nan(id:1){
+                                id
+                                logo
+                                nom
+                                numero
+                                adresse
+                                email      
+                            },
+                            social(id:1){
+                                facebook
+                                twitter 
+                                instagram 
+                                youtube
+
+                            } 
+                        }     
+                          `
                         }).then(response => {
-                                    
-                            console.log(response)
-                            this.isSucces=true;
-                            this.messageRes=true;
-                            this.result= response.data;
-                            console.log(this.result.success)
+                            // console.log(response.data.data)
+                            this.nan = response.data.data.nan
+                            // console.log(this.nan)
+                            this.social = response.data.data.social
+                            console.log(this.social)
+                            
                         })
                         .catch((err) => {
-                            console.log(err);
-                            this.error=false;
-                            this.messageRes=true;
-                        })
-                },
-            }
-        });
-        </script>
+                            console.log('erreur')
+                           
+                            
+                    })
+                }
+            },
+           
+           
+            
+        })
+    </script>
+
 </body>
 
 </html>
