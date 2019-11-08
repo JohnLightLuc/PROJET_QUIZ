@@ -1,18 +1,22 @@
 ```python
 
+
+# App site
+
+from django.db import models
+
+# Create your models here.
 from django.contrib.auth.models import User
-from tinymce import HTMLField
 from django.db import models
 
 class Timemodels(models.Model):
     date_add =  models.DateTimeField(auto_now_add=True)
     date_update =  models.DateTimeField(auto_now=True)
-    status =  models.BooleanField(default=True)
+    statut =  models.BooleanField(default=True)
 
     class Meta:
         abstract=True
 
-# App site
 
 class Nan(Timemodels):
     """Model definition for Nan."""
@@ -54,7 +58,7 @@ class Newsletter(Timemodels):
     """Model definition for Newsletter."""
 
     # TODO: Define fields here
-    email = models.EmailField(, max_length=254)
+    email = models.EmailField(max_length=254)
 
     class Meta:
         """Meta definition for Newsletter."""
@@ -84,14 +88,28 @@ class Geolocalisation(Timemodels):
     # TODO: Define fields here
     latitude = models.PositiveIntegerField()
     longitude = models.PositiveIntegerField()
+    url = models.URLField(max_length=200)
 
     class Meta:
         """Meta definition for Geolocalisation."""
 
         verbose_name = 'Geolocalisation'
         verbose_name_plural = 'Geolocalisations'
-
 # Configuration appp
+
+
+from django.db import models
+from django.contrib.auth.models import User
+
+# Create your models here.
+
+class Timemodels(models.Model):
+    date_add =  models.DateTimeField(auto_now_add=True)
+    date_update =  models.DateTimeField(auto_now=True)
+    statut =  models.BooleanField(default=True)
+
+    class Meta:
+        abstract=True
 
 
 class FirstSectionIndex(Timemodels):
@@ -99,7 +117,7 @@ class FirstSectionIndex(Timemodels):
 
     # TODO: Define fields here
     image = models.ImageField(upload_to='first_section',)
-    titre = HTMLField('Content',null=True)
+    titre = models.CharField(max_length=50)
     action = models.CharField(max_length=50)
 
 
@@ -114,7 +132,7 @@ class SecondSectionIndex(Timemodels):
 
     # TODO: Define fields here
     image = models.ImageField(upload_to='first_section',)
-    titre = HTMLField('Content',null=True)
+    titre = models.CharField(max_length=50)
     action = models.CharField(max_length=50)
     nom_cours = models.CharField(max_length=50)
     nombre_cours = models.PositiveIntegerField()
@@ -152,47 +170,49 @@ class FirstSection(Timemodels):
         verbose_name = 'FirstSection'
         verbose_name_plural = 'FirstSections'
 
-
 # quiz app
 
-class Level(Timemodels):
-    """Model definition for Level."""
+from django.db import models
+from django.contrib.auth.models import User
+from tinymce import HTMLField
 
-    # TODO: Define fields here
-    nom = models.CharField(max_length=50)
-    description = HTMLField('Content',null=True)
-    image = models.ImageField(upload_to='leve_image',)
+# Create your models here.
+
+
+class Timemodels(models.Model):
+    date_add =  models.DateTimeField(auto_now_add=True)
+    date_update =  models.DateTimeField(auto_now=True)
+    statut =  models.BooleanField(default=True)
 
     class Meta:
-        """Meta definition for Level."""
-
-        verbose_name = 'Level'
-        verbose_name_plural = 'Levels'
+        abstract=True
 
 
+class Level(Timemodels):
+    nom = models.CharField(max_length=100)
+    description = models.TextField()
+    
+    def __str__(self):
+        """Unicode representation of Level."""
+        return self.nom
 
 
-class Quiz(models.Model):
+class Quiz(Timemodels):
     """Model definition for Quiz."""
 
     # TODO: Define fields here
     titre = models.CharField(max_length=50)
-    description = HTMLField('Content',null=True)
-    level = models.ForeignKey(Level, on_delete=models.CASCADE, related_name='levels')
-    image = models.ImageField(upload_to='quiz_image',)
+    description = models.TextField()
+    level = models.ForeignKey(Level, on_delete=models.CASCADE, related_name='quiz_levels')
     max_question = models.PositiveIntegerField()
     correction = models.BooleanField(default=False)
     single_tentative = models.BooleanField(default=True)
     result_tentative = models.BooleanField()
     pourcentage_requis = models.SmallIntegerField()
-    date_debut = models.DateTimeField(auto_now=False, auto_now_add=False)
-    duree = models.DurationField()
-    success_text = HTMLField('Content',null=True)
-    fail_text = HTMLField('Content',null=True)
-    status = models.BooleanField(default=True)
-    date_add = models.DateTimeField(auto_now_add=True)
-    date_upd = models.DateTimeField(auto_now=True,)
-
+    success_text = models.TextField()
+    fail_text = models.TextField()
+    
+   
 
     class Meta:
         """Meta definition for Quiz."""
@@ -202,20 +222,28 @@ class Quiz(models.Model):
 
     def __str__(self):
         """Unicode representation of Quiz."""
-        return sellf.titre
+        return self.titre
 
-class Question(models.Model):
+class Image_test(Timemodels):
+    image = models.ImageField(upload_to='images')
+
+    class Meta:
+        """Meta definition for Image_test."""
+
+        verbose_name = 'Image_test'
+        verbose_name_plural = 'Image_tests'
+
+
+class Question(Timemodels):
     """Model definition for Question."""
 
     # TODO: Define fields here
     quiz = models.ManyToManyField(Quiz,related_name='quizs')
+    level = models.ForeignKey(Level, on_delete=models.CASCADE, related_name='levels')
     description = models.TextField()
-    image = models.ImageField(upload_to='question_image',)
-    image_quiz = models.ManyToManyField(Image, null=True)
-    contenu = HTMLField('Content',null=True)
-    status = models.BooleanField(default=True)
-    date_add = models.DateTimeField(auto_now_add=True)
-    date_upd = models.DateTimeField(auto_now=True,)
+    contenu = HTMLField('content')
+    image_question = models.ManyToManyField(Image_test)
+    
 
     class Meta:
         """Meta definition for Question."""
@@ -227,26 +255,20 @@ class Question(models.Model):
         """Unicode representation of Question."""
         return self.description
 
-class Reponse (models.Model):
+class Reponse (Timemodels):
     description = models.TextField ()
     reponse = models.CharField(max_length=200)
     score = models.IntegerField(default = True )
-    date_add = models.DateTimeField ( auto_now_add = True )
-    date_update = models.DateTimeField ( auto_now = True )
-    statut = models.BooleanField ( default = True )
-    
-    image_reponse = models.ManyToManyField(Image, null=True)
+    image_reponse = models.ManyToManyField(Image_test)
     question = models.ForeignKey(Question, on_delete = models.CASCADE, related_name = 'question_reponse',)
 
-    status = models.BooleanField(default=True)
-    date_add = models.DateTimeField(auto_now_add=True)
-    date_upd = models.DateTimeField(auto_now=True,)
+    class Meta:
+        """Meta definition for Question."""
 
-class Resultat (models.Model):
-    date_add = models.DateTimeField ( auto_now_add = True )
-    date_update = models.DateTimeField ( auto_now = True )
-    statut = models.BooleanField ( default = True )
+        verbose_name = 'Reponse'
+        verbose_name_plural = 'Reponses'
+
+class Resultat (Timemodels):
     quiz_id = models.ForeignKey('Quiz', on_delete = models.CASCADE, related_name = 'quiz_resultat',)
-    user_id = models.ForeignKey('User', on_delete = models.CASCADE, related_name = 'user',)
-
+    user_id = models.ForeignKey(User, on_delete = models.CASCADE, related_name = 'user',)
 ```
