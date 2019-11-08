@@ -10,7 +10,7 @@ urlpatterns = [
     path('', views.courses, name='courses'),
     path('resultat', views.resultat, name='resultat'),
     path('quiz', views.quiz, name='quiz'),
-    path('connect', views.connect, name='connect'),
+    path('connect/', views.connect, name='connect'),
 
 
 ]

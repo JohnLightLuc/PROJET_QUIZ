@@ -4,23 +4,6 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 
 # Create your views here.
-@login_required(login_url='connect')
-def courses(request):
-    
-    data={}
-    return render(request, 'pages/quiz/courses.html',data)
-
-@login_required(login_url='connect')
-def resultat(request):
-    
-    data={}
-    return render(request, 'pages/quiz/resultat.html',data)
-
-@login_required(login_url='connect')
-def quiz(request):
-    
-    data={}
-    return render(request, 'pages/quiz/quiz.html',data)
 
 def connect(request):
     if request.method == "POST":
@@ -39,5 +22,24 @@ def connect(request):
             else:
                 return redirect('home')
         else:
-            return render(request, 'connect')
-    return render(request, 'connect')
+            return render(request, 'pages/quiz/connexion.html')
+    return render(request, 'pages/quiz/connexion.html')
+
+@login_required(login_url='quizapp:connect')
+def courses(request):
+    
+    data={}
+    return render(request, 'pages/quiz/courses.html',data)
+
+@login_required(login_url='quizapp:connect')
+def resultat(request):
+    
+    data={}
+    return render(request, 'pages/quiz/resultat.html',data)
+
+@login_required(login_url='quizapp:connect')
+def quiz(request):
+    
+    data={}
+    return render(request, 'pages/quiz/quiz.html',data)
+
