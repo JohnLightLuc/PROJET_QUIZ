@@ -27,20 +27,21 @@ def connect(request):
             return render(request, 'pages/quiz/inscription.html')
     return render(request, 'pages/quiz/connexion.html')
 
-@login_required(login_url='quizapp:connect')
+# @login_required(login_url='quizapp:connect')
 def courses(request):
     
     data={}
     return render(request, 'pages/quiz/courses.html',data)
 
-@login_required(login_url='quizapp:connect')
+# @login_required(login_url='quizapp:connect')
 def resultat(request):
     
     data={}
     return render(request, 'pages/quiz/resultat.html',data)
 
-@login_required(login_url='quizapp:connect')
+# @login_required(login_url='quizapp:connect')
 def quiz(request):
+    question = 
     
     data={}
     return render(request, 'pages/quiz/quiz.html',data)
