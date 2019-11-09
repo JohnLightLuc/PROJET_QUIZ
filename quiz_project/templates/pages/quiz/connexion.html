@@ -1,0 +1,44 @@
+{% extends 'bases/base.html' %}
+
+{% block content %}
+
+<!-- bradcam_area_start -->
+<div class="bradcam_area breadcam_bg overlay2">
+    <h3>Connexion</h3>
+</div>
+<!-- bradcam_area_end -->
+<div class="text-center">
+<form method="POST" action="{% url 'quizapp:connect' %}" style="margin-top: 50px ; margin-bottom: 50px ;"  class="">
+    {% csrf_token %}
+    <div class="popup_box ">
+        <div >
+            <div class="logo text-center">
+                <a href="#">
+                    <img src="/static/img/form-logo.png" alt="">
+                </a>
+            </div>
+            <h3>Log In</h3>
+            <div>
+               
+                <div class="row">
+                    <div class="col-xl-12 col-md-12">
+                        <input name="username" type="username" placeholder="Enter your username">
+                    </div>
+                    
+                    <div class="col-xl-12 col-md-12">
+                        <input name="password" type="password" placeholder="Password">
+                    </div>
+
+                    <div class="col-xl-12">
+                        <button type="submit" class="boxed_btn_orange">Sign Up</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+</div>
+</div>
+    
+{% endblock content %}
+    

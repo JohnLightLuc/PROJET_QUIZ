@@ -97,3 +97,11 @@ class Reponse (Timemodels):
 class Resultat (Timemodels):
     quiz_id = models.ForeignKey('Quiz', on_delete = models.CASCADE, related_name = 'quiz_resultat',)
     user_id = models.ForeignKey(User, on_delete = models.CASCADE, related_name = 'user',)
+
+    # @property
+    # def pourcentage(self):
+    #    #total = Resultat.objects.all().aggregate(ma_sum = Sum('nombre_hbitants'))
+    #    participants = Resultat.objects.all().count()
+
+    #    return round(pourcent, 2)
+        
