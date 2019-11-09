@@ -54,25 +54,31 @@
                                         <li><a href="{% url 'quizapp:courses' %}">Courses</a></li>
                                         <li><a href="{% url 'quizapp:resultat' %}">Resultat</a></li>
                                         {% endif %}
+                                        
                                         <li><a href="{% url 'siteapp:contact' %}">Contact</a></li>
+                                        <li></li>
+                                        <li><a href="{% url 'quizapp:suscribe' %}">Sign In</a></li>
+                                        <li><a href="{% url 'quizapp:connect' %}">Log In</a></li>
                                     </ul>
                                 </nav>
                             </div>
                         </div>
                         <div class="col-xl-3 col-lg-3 d-none d-lg-block">
                             <div class="log_chat_area d-flex align-items-center">
-                                <a href=" { url 'quizapp:connect/' }" class="login popup-with-form">
+                                
+                                <a href=" " class="login popup-with-form">
                                     <i class="flaticon-user"></i>
                                     <span>log in</span>
                                 </a>
                                 <div  class="live_chat_btn">
                                     <a class="boxed_btn_orange" href="#">
                                         <i class="fa fa-phone"></i>
-                                        <span>${ nan.numero}</span>
+                                        <span>${ nan.numero }</span>
                                     </a>
                                 </div>
                             </div>
                         </div>
+                       
                         <div class="col-12">
                             <div class="mobile_menu d-block d-lg-none"></div>
                         </div>

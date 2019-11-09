@@ -8,7 +8,8 @@
 </div>
 <!-- bradcam_area_end -->
 <div class="text-center">
-<form style="margin-top: 50px ; margin-bottom: 50px ;"  class="">
+<form method="POST" action="{% url 'quizapp:connect' %}" style="margin-top: 50px ; margin-bottom: 50px ;"  class="">
+    {% csrf_token %}
     <div class="popup_box ">
         <div >
             <div class="logo text-center">
@@ -17,7 +18,8 @@
                 </a>
             </div>
             <h3>Log In</h3>
-            <form method="POST" action="{ url 'quizapp:connect'}">
+            <div>
+               
                 <div class="row">
                     <div class="col-xl-12 col-md-12">
                         <input name="username" type="username" placeholder="Enter your username">
@@ -31,7 +33,7 @@
                         <button type="submit" class="boxed_btn_orange">Sign Up</button>
                     </div>
                 </div>
-            </form>
+            </div>
         </div>
     </div>
 </form>
