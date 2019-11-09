@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
+from .models import *
 
 
 # Create your views here.
@@ -29,8 +30,11 @@ def connect(request):
 
 # @login_required(login_url='quizapp:connect')
 def courses(request):
+    levels = Level.objects.filter(statut= True)
     
-    data={}
+    data={
+        'levels':levels
+    }
     return render(request, 'pages/quiz/courses.html',data)
 
 # @login_required(login_url='quizapp:connect')
@@ -40,10 +44,13 @@ def resultat(request):
     return render(request, 'pages/quiz/resultat.html',data)
 
 # @login_required(login_url='quizapp:connect')
-def quiz(request):
-    question = 
+def quiz(request, id):
+
+    questions = quiz.objects.filter(level__id= id)
     
-    data={}
+    data={
+        'questions': questions
+    }
     return render(request, 'pages/quiz/quiz.html',data)
 
 

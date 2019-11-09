@@ -17,6 +17,7 @@ class Timemodels(models.Model):
 class Level(Timemodels):
     nom = models.CharField(max_length=100)
     description = models.TextField()
+    image = models.ImageField(upload_to="image", default="default.jpg")
     
     def __str__(self):
         """Unicode representation of Level."""

@@ -13,6 +13,7 @@ class LevelAdmin(admin.ModelAdmin):
         'statut',
         'nom',
         'description',
+        'image',
     )
     list_filter = (
         'date_add',
@@ -24,6 +25,7 @@ class LevelAdmin(admin.ModelAdmin):
         'statut',
         'nom',
         'description',
+        'image',
     )
 
 
