@@ -41,7 +41,7 @@
                         <div class="col-xl-2 col-lg-2">
                             <div class="logo-img">
                                 <a href="{% url 'siteapp:index' %}">
-                                    <img src="/static/img/logo.png" alt="">
+                                    <img src="${ base }/media/${ nan.logo }" alt="">
                                 </a>
                             </div>
                         </div>
@@ -50,29 +50,32 @@
                                 <nav>
                                     <ul id="navigation">
                                         <li><a class="active" href="{% url 'siteapp:index' %}">home</a></li>
-                                        {% if user.is_authenticated %}
-                                        <li><a href="{% url 'quizapp:courses' %}">Courses</a></li>
-                                        <li><a href="{% url 'quizapp:resultat' %}">Resultat</a></li>
-                                        {% endif %}
+                                        
                                         <li><a href="{% url 'siteapp:contact' %}">Contact</a></li>
+                                        <li></li>
+                                    
+                                        <li><a href="{% url 'quizapp:connect' %}">Log In</a></li>
+                                        <li><a href="{% url 'quizapp:logout' %}">Log Out</a></li>
                                     </ul>
                                 </nav>
                             </div>
                         </div>
                         <div class="col-xl-3 col-lg-3 d-none d-lg-block">
                             <div class="log_chat_area d-flex align-items-center">
-                                <a href=" { url 'quizapp:connect/' }" class="login popup-with-form">
+                                
+                                <a href="{% url 'quizapp:logout' %}" class="popup-with-form">
                                     <i class="flaticon-user"></i>
-                                    <span>log in</span>
+                                    <span>log Out</span>
                                 </a>
                                 <div  class="live_chat_btn">
                                     <a class="boxed_btn_orange" href="#">
                                         <i class="fa fa-phone"></i>
-                                        <span>${ nan.numero}</span>
+                                        <span>${ nan.numero }</span>
                                     </a>
                                 </div>
                             </div>
                         </div>
+                       
                         <div class="col-12">
                             <div class="mobile_menu d-block d-lg-none"></div>
                         </div>
@@ -122,7 +125,7 @@
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="${ social.instagram }">
+                                        <a href="${ base }/media/${ social.instagram }">
                                             <i class="fa fa-instagram"></i>
                                         </a>
                                     </li>
@@ -315,6 +318,7 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
             social: [],
             nan: [],
             titre : '',
+            baase = 'http://127.0.0.1:8000',
             id : '',
             good: false,
           },
@@ -326,7 +330,7 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
             getdata: function () {
                     axios.defaults.xsrfCookieName = 'csrftoken'
                     axios.defaults.xsrfHeaderName = 'X-CSRFToken'
-                    axios.post('http://127.0.0.1:8000/graphql/', {
+                    axios.post(this.base +'/graphql/', {
                       query: `
                         query {
                             nan(id:1){

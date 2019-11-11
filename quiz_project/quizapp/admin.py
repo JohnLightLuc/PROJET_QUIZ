@@ -13,6 +13,7 @@ class LevelAdmin(admin.ModelAdmin):
         'statut',
         'nom',
         'description',
+        'image',
     )
     list_filter = (
         'date_add',
@@ -24,6 +25,7 @@ class LevelAdmin(admin.ModelAdmin):
         'statut',
         'nom',
         'description',
+        'image',
     )
 
 
@@ -112,6 +114,36 @@ class QuestionAdmin(admin.ModelAdmin):
     raw_id_fields = ('quiz', 'image_question')
 
 
+class PropositionAdmin(admin.ModelAdmin):
+
+    list_display = (
+        'id',
+        'date_add',
+        'date_update',
+        'statut',
+        'propsition1',
+        'propsition2',
+        'propsition3',
+        'propsition5',
+        'question',
+    )
+    list_filter = (
+        'date_add',
+        'date_update',
+        'statut',
+        'question',
+        'id',
+        'date_add',
+        'date_update',
+        'statut',
+        'propsition1',
+        'propsition2',
+        'propsition3',
+        'propsition5',
+        'question',
+    )
+
+
 class ReponseAdmin(admin.ModelAdmin):
 
     list_display = (
@@ -174,5 +206,6 @@ _register(models.Level, LevelAdmin)
 _register(models.Quiz, QuizAdmin)
 _register(models.Image_test, Image_testAdmin)
 _register(models.Question, QuestionAdmin)
+_register(models.Proposition, PropositionAdmin)
 _register(models.Reponse, ReponseAdmin)
 _register(models.Resultat, ResultatAdmin)
