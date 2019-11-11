@@ -4,6 +4,6 @@ from . import views
 
 app_name = 'configapp'
 urlpatterns = [
-    #path('', views.home, name='home'),
+    path('', views.index, name='index'),
 
 ]

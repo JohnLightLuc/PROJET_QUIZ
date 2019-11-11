@@ -11,10 +11,7 @@ from .models import *
 # Create your views here.
 
 
-def index(request):
 
-    data={}
-    return render(request, 'pages/home/home.html',data)
 
 def contact(request):
     

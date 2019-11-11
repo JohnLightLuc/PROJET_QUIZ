@@ -40,8 +40,8 @@
                     <div class="row align-items-center no-gutters">
                         <div class="col-xl-2 col-lg-2">
                             <div class="logo-img">
-                                <a href="{% url 'siteapp:index' %}">
-                                    <img src="${ base }/media/${ nan.logo }" alt="">
+                                <a href="{% url 'configapp:index' %}">
+                                    <img src="{{ item.image.url }}" alt="">
                                 </a>
                             </div>
                         </div>
@@ -49,7 +49,7 @@
                             <div class="main-menu  d-none d-lg-block">
                                 <nav>
                                     <ul id="navigation">
-                                        <li><a class="active" href="{% url 'siteapp:index' %}">home</a></li>
+                                        <li><a class="active" href="{% url 'configapp:index' %}">home</a></li>
                                         
                                         <li><a href="{% url 'siteapp:contact' %}">Contact</a></li>
                                         <li></li>
