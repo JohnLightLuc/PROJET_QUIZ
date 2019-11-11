@@ -12,7 +12,7 @@ from .models import *
 
 
 def index(request):
-    
+
     data={}
     return render(request, 'pages/home/home.html',data)
 

@@ -42,7 +42,7 @@ class Quiz(Timemodels):
     success_text = models.TextField()
     fail_text = models.TextField()
     
-   
+
 
     class Meta:
         """Meta definition for Quiz."""
