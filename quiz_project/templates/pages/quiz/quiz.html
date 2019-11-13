@@ -47,7 +47,7 @@
         <!-- autre modele sans image -->
         <h3 class="text-heading">Question</h3>
         <p class="sample-text">
-        {% if contacts|length > 0 %}
+        {% if question|length > 0 %}
             {% for item  in question %}
             <p>{{ item.contenu|safe }}</p>
             {% endfor %}
@@ -141,8 +141,13 @@
     <div class="container box_1170 border-top-generic">
         <h3 class="text-heading">Sample Buttons</h3>
         <div class="button-group-area mt-40">
-            <a href="?page={{ question.previous_page_number }}" class="genric-btn default circle">Precedent</a>
+            {% if question.has_previous %}
+                <a href="?page=1"></a>
+                <a href="?page={{ question.previous_page_number }}" class="genric-btn default circle">Precedent</a>
+            {% endif %}
+            {% if question.has_next %}
             <a href="?page={{ question.next_page_number }}" class="genric-btn primary circle">Suivant</a>
+           {% endif %}
             <a href="#" class="genric-btn success circle">Submit</a>
         </div>
     </div>
