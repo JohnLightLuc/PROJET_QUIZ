@@ -34,9 +34,11 @@ def connect(request):
 @login_required(login_url='connect/')
 def courses(request):
     levels = Level.objects.filter(statut= True)
+    quiz = Quiz.objects.filter(statut=True)
     
     data={
-        'levels':levels
+        'levels':levels,
+        'quiz':quiz,
     }
     return render(request, 'pages/quiz/courses.html',data)
 
@@ -47,23 +49,20 @@ def resultat(request):
     return render(request, 'pages/quiz/resultat.html',data)
 
 @login_required(login_url='connect/')
-def quiz(request):
+def quiz(request,id):
 
-    questions = Question.objects.filter(statut=True)
-    print(questions)
-    paginator = Paginator(questions, 1)
-    page = request.GET.get('page')
-    try:
-        question = paginator.get_page(page)
-    except EmptyPage:
-        question = paginator(1)
-    except PageNotAnInteger:
-        question = paginator(paginator.num_pages)
+    quiz = Quiz.objects.filter(statut=True)
     data={
-        'question': question,
-        'questions': questions
+        'quiz': quiz,
     }
-    print(question)
+    return render(request, 'pages/quiz/quizs.html', data )
+
+def quest(request,id):
+    
+    quiz = Quiz.objects.filter(statut=True)
+    data={
+        'quiz': quiz,
+    }
     return render(request, 'pages/quiz/quiz.html', data )
 
 
