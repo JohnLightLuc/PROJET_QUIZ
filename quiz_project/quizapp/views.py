@@ -4,6 +4,8 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.contrib.auth.models import User
+from django.http import JsonResponse
+import json
 from .models import *
 
 
@@ -65,6 +67,16 @@ def quest(request,id):
     }
     return render(request, 'pages/quiz/quiz.html', data )
 
+def loadquest(request):
+    postdata = json.loads(request.body.decode('utf-8'))
+    id = postdata['id']
+    props = Proposition.objects.filter(question__id = id)
+    reponse = Reponse.objects.filter(question__id = id)
+    datas = {
+        'props': props,
+        'reponse': reponse
+    }
+    return JsonResponse(datas, safe=False)
 
 def inscription(request):
     

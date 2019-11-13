@@ -14,5 +14,6 @@ urlpatterns = [
     path('connect/', views.connect, name='connect'),
     path('suscribe/', views.inscription, name='suscribe'),
     path('logout/', views.deconnexion, name='logout'),
+    path('test/', views.loadquest),
 
 ]
