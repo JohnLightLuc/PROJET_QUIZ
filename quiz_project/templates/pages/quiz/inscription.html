@@ -15,21 +15,28 @@
                 <a href="#">
                     <img src="/static/img/form-logo.png" alt="">
                 </a>
+                    
+            </div>
+            <div>
+                {% if message != '' %}
+                <p style="color: #fff;">{{ message }}</p>
+                 {% endif %}
             </div>
             <h3>Resistration</h3>
-            <form action="#">
+            <formn method="POST" action="{% url 'quizapp:suscribe' %}">
+                {% csrf_token %}
                 <div class="row">
                     <div class="col-xl-12 col-md-12">
-                        <input type="username" placeholder="Enter your username">
+                        <input name='username' type="username" placeholder="Enter your username">
                     </div>
                     <div class="col-xl-12 col-md-12">
-                        <input type="email" placeholder="Enter email">
+                        <input name='email' type="email" placeholder="Enter email">
                     </div>
                     <div class="col-xl-12 col-md-12">
-                        <input type="password" placeholder="Password">
+                        <input name='password' type="password" placeholder="Password">
                     </div>
                     <div class="col-xl-12 col-md-12">
-                        <input type="Password" placeholder="Confirm password">
+                        <input type="repass" placeholder="Confirm password">
                     </div>
                     <div class="col-xl-12">
                         <button type="submit" class="boxed_btn_orange">Sign Up</button>

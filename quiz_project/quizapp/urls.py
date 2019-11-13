@@ -12,6 +12,6 @@ urlpatterns = [
     path('quiz/', views.quiz, name='quiz'),
     path('connect/', views.connect, name='connect'),
     path('suscribe/', views.inscription, name='suscribe'),
-
+    path('logout/', views.deconnexion, name='logout'),
 
 ]

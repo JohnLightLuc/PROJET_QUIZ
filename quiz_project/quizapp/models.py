@@ -1,6 +1,9 @@
 from django.db import models
 from django.contrib.auth.models import User
 from tinymce import HTMLField
+from django.contrib.auth.models import User
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 
 # Create your models here.
 
@@ -39,7 +42,7 @@ class Quiz(Timemodels):
     success_text = models.TextField()
     fail_text = models.TextField()
     
-   
+
 
     class Meta:
         """Meta definition for Quiz."""
@@ -81,6 +84,22 @@ class Question(Timemodels):
     def __str__(self):
         """Unicode representation of Question."""
         return self.description
+
+class Proposition(Timemodels):
+    propsition1 = models.CharField(max_length=200)
+    propsition2 = models.CharField(max_length=200)
+    propsition3 = models.CharField(max_length=200)
+    propsition5 = models.CharField(max_length=200)
+    question = models.ForeignKey(Question, on_delete = models.CASCADE, related_name = 'proposition_question')
+
+    class Meta:
+        """Meta definition for Proposition."""
+
+        verbose_name = 'Proposition'
+        verbose_name_plural = 'Propositions'
+
+
+
 
 class Reponse (Timemodels):
     description = models.TextField ()
