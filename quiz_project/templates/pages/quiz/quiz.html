@@ -40,8 +40,8 @@
                         <div class="row">
                             
                             {% for item in quiz  %}
-                            <div class="col-md-4" style="margin-bottom: 20px;">
-                                    <button v-on:click="loadquestion({{ item.id }})" type="button" class="btn btn-outline-info">{{ forloop.counter  }}</button>
+                            <div id="{{ item.id }}" class="col-md-4" style="margin-bottom: 20px;">
+                                    <button  v-on:click="loadquestion" type="button" class="btn btn-outline-info">{{ forloop.counter  }}</button>
                             </div>
                                 
                             {% endfor %}
@@ -72,6 +72,7 @@
         
                                 isregister: false,
                                 isstart = false,
+                                id : '',
                                 result: '',
                                 essai : "tout passe bien",
                                 proposition: '',
@@ -79,11 +80,11 @@
                             },
                             delimiters: ["${", "}"],
                             methods: {
-                                loadquestion: function (id) {
+                                loadquestion: function () {
                                     axios.defaults.xsrfCookieName = 'csrftoken'
                                     axios.defaults.xsrfHeaderName = 'X-CSRFToken'
                                     axios.post('http://127.0.0.1:8000/quiz/test/', {
-                                      id
+                                      this.id
                                         }).then(response => {
                                             console.log(response)
                                             this.isstart = true
