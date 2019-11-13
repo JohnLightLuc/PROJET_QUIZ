@@ -5,7 +5,8 @@ from .models import *
 
 def index(request):
     home = SecondSectionIndex.objects.filter(statut=True)
+    print(home)
     data={
         'home': home,
     }
-    return render(request, 'pages/home/home.html', data)
+    return render(request, 'pages/home/home.html')
