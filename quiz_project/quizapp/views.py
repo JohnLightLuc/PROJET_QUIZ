@@ -47,7 +47,7 @@ def resultat(request):
     return render(request, 'pages/quiz/resultat.html',data)
 
 @login_required(login_url='connect/')
-def quiz(request, id):
+def quiz(request):
 
     questions = Question.objects.filter(statut=True)
     print(questions)
