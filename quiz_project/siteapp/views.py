@@ -18,6 +18,11 @@ def contact(request):
     data={}
     return render(request, 'pages/home/contact.html',data)
 
+def index(request):
+    
+    data={}
+    return render(request, 'pages/home/home.html',data)
+
 
 def connexion(request):
     postdata = json.loads(request.body.decode('utf-8'))
