@@ -17,6 +17,12 @@ def contact(request):
     
     data={}
     return render(request, 'pages/home/contact.html',data)
+    
+def connecte(request):
+    
+    data={}
+    return render(request, 'pages/quiz/connexion.html',data)
+
 
 def index(request):
     
