@@ -8,6 +8,7 @@ from django.http import JsonResponse
 
 from django.contrib.auth.models import User
 from .models import *
+from configapp.models import *
 # Create your views here.
 
 
@@ -25,8 +26,10 @@ def connecte(request):
 
 
 def index(request):
-    
-    data={}
+    home = SecondSectionIndex.objects.filter(statut=True)[:1]
+    data={
+        'home':home,
+    }
     return render(request, 'pages/home/home.html',data)
 
 
