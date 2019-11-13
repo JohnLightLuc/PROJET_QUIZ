@@ -4,8 +4,8 @@ from .models import *
 
 
 def index(request):
-    home = FirstSectionIndex.objects.filter(statut=True)
+    home = SecondSectionIndex.objects.filter(statut=True)
     data={
         'home': home,
     }
-    return render(request, 'pages/home/home.html',data)
+    return render(request, 'pages/home/home.html', data)
