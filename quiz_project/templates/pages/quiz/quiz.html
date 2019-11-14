@@ -23,6 +23,8 @@
                             
                         </div>
                         <div v-if="isstart" >
+                                                 
+                            <p>${ mesreponse }</p>
                             <div >
                                 ${ question.description }  
                             </div>
@@ -36,26 +38,26 @@
                                 </div>
                                 <div v-if="isstart">
                                  <div > 
-                                    <div  class="form-check">
-                                      <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="${ proposition.propsition1 }" >
+                                    <div class="form-check">
+                                      <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" v-model="mesreponse" >
                                       <label class="form-check-label" for="exampleRadios1">
                                         ${ proposition.propsition1 }
                                       </label>
                                     </div>
-                                    <div  class="form-check">
-                                      <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="${ proposition.propsition2 }" >
+                                    <div class="form-check">
+                                      <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" v-model="mesreponse" >
                                       <label class="form-check-label" for="exampleRadios1">
                                         ${ proposition.propsition2 }
                                       </label>
                                     </div>
-                                    <div  class="form-check">
-                                      <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="${ proposition.propsition3 }" >
+                                    <div class="form-check">
+                                      <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" v-model="mesreponse" >
                                       <label class="form-check-label" for="exampleRadios1">
                                         ${ proposition.propsition3 } 
                                       </label>
                                     </div>
                                     <div  class="form-check">
-                                      <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="${ proposition.propsition5 }" >
+                                      <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" v-model="mesreponse" >
                                       <label class="form-check-label" for="exampleRadios1">
                                         ${ proposition.propsition5 }
                                       </label>
@@ -97,6 +99,7 @@
                         
             
                 </div>
+                
             
             </div>
         </div>
@@ -112,7 +115,7 @@
                                 isregister: false,
                                 isstart : false,
  
-
+                                mesreponse : [],
                                 result: '',
                                 essai : "tout passe bien",
                                 proposition: '',
