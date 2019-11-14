@@ -70,11 +70,13 @@ def quest(request,id):
 def loadquest(request):
     postdata = json.loads(request.body.decode('utf-8'))
     id = postdata['id']
+    print("")
+    print(id)
     props = Proposition.objects.filter(question__id = id)
     reponse = Reponse.objects.filter(question__id = id)
     datas = {
-        'props': props,
-        'reponse': reponse
+        'props': 'props',
+        'reponse': 'reponse'
     }
     return JsonResponse(datas, safe=False)
 

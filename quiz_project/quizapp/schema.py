@@ -27,6 +27,9 @@ class Image_testType(DjangoObjectType):
 class QuestionType(DjangoObjectType):
     class Meta:
         model = Question
+class PropositionType(DjangoObjectType):
+    class Meta:
+        model = Proposition
 
 class ReponseType(DjangoObjectType):
     class Meta:
@@ -36,6 +39,7 @@ class ResultatType(DjangoObjectType):
     class Meta:
         model = Resultat
 
+
 # Create a Query type
 class Query(ObjectType):
     level = graphene.Field(LevelType, id=graphene.Int())
@@ -44,6 +48,7 @@ class Query(ObjectType):
     question = graphene.Field(QuestionType, id=graphene.Int())
     reponse = graphene.Field(ReponseType, id=graphene.Int())
     resultat = graphene.Field(ResultatType, id=graphene.Int())
+    propostion = graphene.Field(PropositionType, id=graphene.Int())
 
     levels= graphene.List(LevelType)
     quizs = graphene.List(QuizType)
@@ -51,12 +56,21 @@ class Query(ObjectType):
     questions= graphene.List(QuestionType)
     reponses= graphene.List(ReponseType)
     resultats= graphene.List(ResultatType)
+    propostions= graphene.List(PropositionType)
 
     def resolve_level(self, info, **kwargs):
         id = kwargs.get('id')
 
         if id is not None:
             return Level.objects.get(pk=id)
+
+        return None
+
+    def resolve_propostion(self, info, **kwargs):
+        id = kwargs.get('id')
+
+        if id is not None:
+            return Proposition.objects.get(pk=id)
 
         return None
 
@@ -117,6 +131,9 @@ class Query(ObjectType):
 
     def resolve_Resultats(self, info, **kwargs):
         return Resultat.objects.all()
+
+    def resolve_propostions(self, info, **kwargs):
+        return Proposition.objects.all()
 
 
 
