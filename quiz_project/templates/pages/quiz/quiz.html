@@ -1,4 +1,4 @@
-{% extends 'bases/base.html' %}
+{% extends 'bases/base_profile.html' %}
 
 {% block content %}
     		<!-- bradcam_area_start -->
@@ -11,57 +11,192 @@
            
         </div>
         <!-- bradcam_area_end -->
-
-        <div class="container"><br><br>
-            <div class="row">
-                <div class="col-md-8">
-                    <h2>hello les questions ici</h2><br><br>
-                    <br>         
-                    <h4>reponse lie a la question</h4>
-                    <h4>reponse lie a la question</h4>       
-                    <h4>reponse lie a la question</h4>       
-                    <h4>reponse lie a la question</h4>       
-                    <h4>reponse lie a la question</h4>       
-                    <h4>reponse lie a la question</h4>       
-        
-                </div>
-                <div class="col-md-4">
-                    <div class="row">
-                        <div class="col-md-4" style="margin-bottom: 20px;">
-                            <button type="button" class="btn btn-outline-info">quest1</button>
+        <div id="myapp">
+            <div class="container"><br><br>
+                <div class="row">
+                    
+                    <div class="col-md-8">
+                        <h2>Composition</h2><br><br>
+                        <h3>Sujets</h3><br><br>
+                        <div v-if="! isstart" >
+                            <p> Commencer le quiz en selectionnannt !</p>
+                            
                         </div>
-                        <div class="col-md-4" style="margin-bottom: 20px;">
-                            <button type="button" class="btn btn-outline-info">quest2</button>
+                        <div v-if="isstart" >
+                                                 
+                            <p>${ mesreponse }</p>
+                            <div >
+                                ${ question.description }  
+                            </div>
+                            <br><br>
                         </div>
-                        <div class="col-md-4" style="margin-bottom: 20px;">
-                            <button type="button" class="btn btn-outline-info">quest3</button>
-                        </div>
-                        <div class="col-md-4" style="margin-bottom: 20px;">
-                            <button type="button" class="btn btn-outline-info">quest4</button>
-                        </div>
+                                <h3>Propositions</h3> 
+                                <br><br><br>
+                                <div v-if="! isstart" >
+                                    <h5> Oh les propositions ! :-)</5>
+                                    
+                                </div>
+                                <div v-if="isstart">
+                                 <div > 
+                                    <div class="form-check">
+                                      <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" v-model="mesreponse" >
+                                      <label class="form-check-label" for="exampleRadios1">
+                                        ${ proposition.propsition1 }
+                                      </label>
+                                    </div>
+                                    <div class="form-check">
+                                      <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" v-model="mesreponse" >
+                                      <label class="form-check-label" for="exampleRadios1">
+                                        ${ proposition.propsition2 }
+                                      </label>
+                                    </div>
+                                    <div class="form-check">
+                                      <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" v-model="mesreponse" >
+                                      <label class="form-check-label" for="exampleRadios1">
+                                        ${ proposition.propsition3 } 
+                                      </label>
+                                    </div>
+                                    <div  class="form-check">
+                                      <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" v-model="mesreponse" >
+                                      <label class="form-check-label" for="exampleRadios1">
+                                        ${ proposition.propsition5 }
+                                      </label>
+                                    </div>
+                                 </div> 
+                                </div>
+                                <br><br><br>
+                               <!--  <p>reponse 1</p>
+                                <p>reponse 2</p>
+                                <p>reponse 3</p>
+                                <p>reponse 4</p> -->
+                       
+                        <br> 
                         
-                        <div class="col-md-4" style="margin-bottom: 20px;">
-                            <button type="button" class="btn btn-outline-info">quest5</button>
-                        </div>
-                        <div class="col-md-4" style="margin-bottom: 20px;">
-                            <button type="button" class="btn btn-outline-info">quest6</button>
-                        </div>
-                        <div class="col-md-4" style="margin-bottom: 20px;">
-                            <button type="button" class="btn btn-outline-info">quest7</button>
-                        </div>
-                        <div class="col-md-4" style="margin-bottom: 20px;">
-                            <button type="button" class="btn btn-outline-info">quest8</button>
-                        </div>
+                            
+            
                     </div>
-                    
-                    
-        
+                    <div class="col-md-4">
+                        <h3>Questions</h3><br>
+                        <div class="row">
+                            
+                            {% for item in quiz  %}
+                            <div id="{{ item.id }}" class="col-md-4" style="margin-bottom: 20px;">
+                                    <button  v-on:click="senddata({{ item.id }})" type="button" class="btn btn-outline-info">{{ forloop.counter  }}</button>
+                            </div>
+                                
+                            {% endfor %}
+                        
+                        </div>
+                        <div class="row">
+                            <div style="text-align: center;">
+                                    <a href="#" class="btn btn-primary">Terminer</a>
+                            </div> 
+                        </div>  
+                            
+                            
+                    </div>
+                        
+                        
+            
                 </div>
-        
-            </div><br><br><br>
-            <div style="text-align: center;">
-                <a href="#" class="btn btn-primary">Terminer</a>
+                
+            
             </div>
         </div>
+        <!-- <script src="/static/vue.js"></script> 
+        <script src="/static/axios.js"></script>  -->
+        <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script> 
+        <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+            <script>
+                    new Vue({
+                            el: '#myapp',
+                            data: {
+        
+                                isregister: false,
+                                isstart : false,
+ 
+                                mesreponse : [],
+                                result: '',
+                                essai : "tout passe bien",
+                                proposition: '',
+                                question: '',
+                                reponse : ''
+                            },
+                            delimiters: ["${", "}"],
+                            methods: {
+                                loadquestion: function (id) {
+                                    axios.defaults.xsrfCookieName = 'csrftoken'
+                                    axios.defaults.xsrfHeaderName = 'X-CSRFToken'
+                                    axios.post('http://127.0.0.1:8000/quiz/test/', {
+                                      id 
+                                        }).then(response => {
+                                            console.log(response)
+                                            this.isstart = true
+                                            this.result= response.data
+                                            this.proposition = this.result['props']
+                                            this.reponse = this.result['reponse']
+                                        })
+                                        .catch((err) => {
+                                            console.log('erreur')
+                                                    
+                                        })
+                                },
+                                reponse : function (id) {
+                                    axios.defaults.xsrfCookieName = 'csrftoken'
+                                    axios.defaults.xsrfHeaderName = 'X-CSRFToken'
+                                    axios.post('http://127.0.0.1:8000/quiz/test/', {
+                                      id 
+                                        }).then(response => {
+                                            console.log(response)
+                                            this.isstart = true
+                                            this.result= response.data
+                                            this.proposition = this.result['props']
+                                            this.reponse = this.result['reponse']
+                                        })
+                                        .catch((err) => {
+                                            console.log('erreur')
+                                                    
+                                        })
+                                }, 
+                                senddata: function (id) {
+                                    axios.defaults.xsrfCookieName = 'csrftoken'
+                                    axios.defaults.xsrfHeaderName = 'X-CSRFToken'
+                                    axios.post('http://127.0.0.1:8000/graphql/', {
+                                      query: `
+                                        query {
+                                          propostion(id:${id}){
+                                            propsition1
+                                            propsition2
+                                            propsition3
+                                            propsition5
+                                          },
+                                       
+                                          question(id:${id}){
+                                            description
+                                            contenu
+                                          }
+                                        }
+
+                                          `
+                                        }).then(response => {
+                                            console.log(response.data.data)
+                                            this.isstart = true
+                                            this.result= response.data.data
+                                            this.proposition = response.data.data.propostion
+                                            this.question = response.data.data.question
+                                            
+                                        })
+                                        .catch((err) => {
+                                            console.log('erreur')
+                                                    
+                                        })
+                                }
+
+
+
+                            }
+                        })
+                  </script>
+            
 {% endblock content %}
     

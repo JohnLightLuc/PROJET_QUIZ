@@ -1,0 +1,41 @@
+{% extends 'bases/base_profile.html' %}
+
+{% block content %}
+<section class="fdb-block">
+        <div class="container">
+          <div class="row justify-content-center">
+            <div class="col-12 text-left">
+              <h1>Les Quizs</h1>
+            </div>
+          </div>
+      
+          <div class="row text-left mt-5">
+            {% for item in quiz %}
+            <div class="col-12 col-sm-8 col-md-4 col-lg-3 m-sm-auto mr-md-auto ml-md-0">
+              <!-- Card -->
+                <div class="card">
+
+                        <!-- Card content -->
+                        <div class="card-body">
+                    
+                        <!-- Title -->
+                        <h4 class="card-title"><a href="">{{ item.titre }}</a></h4>
+                        <!-- Text -->
+                        <p class="card-text">{{ item.description }}</p>
+                        <!-- Button -->
+                        <a href="{% url 'quizapp:quest' item.id %}" class="btn btn-primary">Commencer</a>
+                    
+                        </div>
+                    
+                    </div>
+                    <!-- Card -->
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+    </section>
+    
+
+ 
+{% endblock content %}
+    

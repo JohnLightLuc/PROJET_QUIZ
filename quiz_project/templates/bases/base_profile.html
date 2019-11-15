@@ -61,9 +61,9 @@
                             </div>
                             <div class="col-xl-3 col-lg-3 d-none d-lg-block">
                                 <div class="log_chat_area d-flex align-items-center">
-                                    <a href="{% url 'siteapp:connecte' %}" >
+                                    <a href="{% url 'quizapp:logout' %}" >
                                         <i class="flaticon-user"></i>
-                                        <span>log in</span>
+                                        <span>logout</span>
                                     </a>
                                     <div class="live_chat_btn">
                                         <a class="boxed_btn_orange" href="#">
@@ -180,11 +180,11 @@
                     <div class="footer_border"></div>
                     <div class="row">
                         <div class="col-xl-12">
-                           <p class="copy_right text-center">
-                               <!--  Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                            <p class="copy_right text-center">
+                                <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
     Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
     <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                            </p> 
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -286,72 +286,7 @@
 
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-    <!-- <script>
-      new Vue({
-          el: '#myhome',
-          data () {
-            return {
-              info: null
-            }
-          },
-          data: {
-            send_data: false,
-            social: [],
-            nan: [],
-            titre : '',
-            baase = 'http://127.0.0.1:8000',
-            id : '',
-            good: false,
-          },
-          delimiters: ["${", "}"],
-          mounted () {
-              this.getdata();
-          }, 
-          methods: {
-            getdata: function () {
-                    axios.defaults.xsrfCookieName = 'csrftoken'
-                    axios.defaults.xsrfHeaderName = 'X-CSRFToken'
-                    axios.post(this.base +'/graphql/', {
-                      query: `
-                        query {
-                            nan(id:1){
-                                id
-                                logo
-                                nom
-                                numero
-                                adresse
-                                email      
-                            },
-                            social(id:1){
-                                facebook
-                                twitter 
-                                instagram 
-                                youtube
-
-                            } 
-                        }     
-                          `
-                        }).then(response => {
-                            // console.log(response.data.data)
-                            this.nan = response.data.data.nan
-                            // console.log(this.nan)
-                            this.social = response.data.data.social
-                            console.log(this.social)
-                            
-                        })
-                        .catch((err) => {
-                            console.log('erreur')
-                           
-                            
-                    })
-                }
-            },
-           
-           
-            
-        })
-    </script> -->
-
+  
 </body>
 
 </html>
