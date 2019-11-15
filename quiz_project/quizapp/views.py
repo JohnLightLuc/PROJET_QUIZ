@@ -54,11 +54,12 @@ def resultat(request):
 @login_required(login_url='connect/')
 def quiz(request,id):
 
-    quiz = Quiz.objects.filter(statut=True)
+    quiz = Quiz.objects.filter(level__id= id)
     data={
         'quiz': quiz,
     }
     return render(request, 'pages/quiz/quizs.html', data )
+    
 
 def quest(request,id):
     
@@ -108,3 +109,4 @@ def inscription(request):
 def deconnexion(request):
     logout(request)
     return redirect('siteapp:index') 
+    
