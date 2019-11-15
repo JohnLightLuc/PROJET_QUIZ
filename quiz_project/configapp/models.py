@@ -31,11 +31,15 @@ class SecondSectionIndex(Timemodels):
     """Model definition for SecondSectionIndex."""
 
     # TODO: Define fields here
-    image = models.ImageField(upload_to='first_section',)
     titre = models.CharField(max_length=50)
+    description = models.CharField(max_length=500, default="description")
     action = models.CharField(max_length=50)
-    nom_cours = models.CharField(max_length=50)
-    nombre_cours = models.PositiveIntegerField()
+    nom_cours1 = models.CharField(max_length=50)
+    nombre_cours1 = models.PositiveIntegerField()
+    nom_cours2 = models.CharField(max_length=50, default='Nom')
+    nombre_cour2 = models.PositiveIntegerField(default=0)
+    nom_cours3 = models.CharField(max_length=50, default='Nom')
+    nombre_cours3 = models.PositiveIntegerField(default=0)
 
 
     class Meta:

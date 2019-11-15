@@ -36,11 +36,15 @@ class SecondSectionIndexAdmin(admin.ModelAdmin):
         'date_add',
         'date_update',
         'statut',
-        'image',
         'titre',
+        'description',
         'action',
-        'nom_cours',
-        'nombre_cours',
+        'nom_cours1',
+        'nombre_cours1',
+        'nom_cours2',
+        'nombre_cour2',
+        'nom_cours3',
+        'nombre_cours3',
     )
     list_filter = (
         'date_add',
@@ -50,11 +54,15 @@ class SecondSectionIndexAdmin(admin.ModelAdmin):
         'date_add',
         'date_update',
         'statut',
-        'image',
         'titre',
+        'description',
         'action',
-        'nom_cours',
-        'nombre_cours',
+        'nom_cours1',
+        'nombre_cours1',
+        'nom_cours2',
+        'nombre_cour2',
+        'nom_cours3',
+        'nombre_cours3',
     )
 
 

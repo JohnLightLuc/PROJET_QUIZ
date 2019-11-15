@@ -7,6 +7,7 @@ from django.contrib.auth.models import User
 from django.http import JsonResponse
 import json
 from .models import *
+from django.db.models import Avg, Count, Sum
 
 
 # Create your views here.
@@ -62,8 +63,13 @@ def quiz(request,id):
 def quest(request,id):
     
     quiz = Quiz.objects.filter(statut=True)
+    somme = Reponse.objects.filter(question__id= id).aggregate(score = Sum('score'))
+
+    print("somme = ", somme['score'])
+    somme = somme['score']
     data={
         'quiz': quiz,
+        'somme': somme,
     }
     return render(request, 'pages/quiz/quiz.html', data )
 
