@@ -26,9 +26,13 @@ def connecte(request):
 
 
 def index(request):
-    home = SecondSectionIndex.objects.filter(statut=True) [:1] 
+    home = SecondSectionIndex.objects.filter(statut=True) 
+    inde = FirstSectionIndex.objects.filter(statut=True)
+    new = Newsletter.objects.filter(statut=True)
     data={
         'home':home,
+        'inde':inde,
+        'new':new,
     }
     return render(request, 'pages/home/home.html',data)
 
