@@ -26,7 +26,7 @@ def connecte(request):
 
 
 def index(request):
-    home = SecondSectionIndex.objects.filter(statut=True)[:1]
+    home = SecondSectionIndex.objects.filter(statut=True) [:1] 
     data={
         'home':home,
     }
