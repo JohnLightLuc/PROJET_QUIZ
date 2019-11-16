@@ -26,7 +26,7 @@ def connecte(request):
 
 
 def index(request):
-    home = SecondSectionIndex.objects.filter(statut=True) 
+    home = SecondSectionIndex.objects.filter(statut=True)[:1]
     inde = FirstSectionIndex.objects.filter(statut=True)
     new = Newsletter.objects.filter(statut=True)
     data={
