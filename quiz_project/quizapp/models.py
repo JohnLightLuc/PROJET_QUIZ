@@ -71,6 +71,7 @@ class Question(Timemodels):
     quiz = models.ManyToManyField(Quiz,related_name='quizs')
     level = models.ForeignKey(Level, on_delete=models.CASCADE, related_name='levels')
     description = models.TextField()
+    point = models.SmallIntegerField(default = 0)
     contenu = HTMLField('content')
     image_question = models.ManyToManyField(Image_test)
     
@@ -117,6 +118,8 @@ class Reponse (Timemodels):
 class Resultat (Timemodels):
     quiz_id = models.ForeignKey('Quiz', on_delete = models.CASCADE, related_name = 'quiz_resultat',)
     user_id = models.ForeignKey(User, on_delete = models.CASCADE, related_name = 'user',)
+    note = models.SmallIntegerField(default = 0)
+    taux = models.SmallIntegerField(default = 0)
 
     # @property
     # def pourcentage(self):

@@ -96,6 +96,7 @@ class QuestionAdmin(admin.ModelAdmin):
         'statut',
         'level',
         'description',
+        'point',
         'contenu',
     )
     list_filter = (
@@ -109,6 +110,7 @@ class QuestionAdmin(admin.ModelAdmin):
         'statut',
         'level',
         'description',
+        'point',
         'contenu',
     )
     raw_id_fields = ('quiz', 'image_question')
@@ -182,6 +184,8 @@ class ResultatAdmin(admin.ModelAdmin):
         'statut',
         'quiz_id',
         'user_id',
+        'note',
+        'taux',
     )
     list_filter = (
         'date_add',
@@ -195,6 +199,8 @@ class ResultatAdmin(admin.ModelAdmin):
         'statut',
         'quiz_id',
         'user_id',
+        'note',
+        'taux',
     )
 
 

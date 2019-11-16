@@ -98,7 +98,7 @@ class Query(ObjectType):
 
         return None
 
-    def resolve_Reponse(self, info, **kwargs):
+    def resolve_reponse(self, info, **kwargs):
         id = kwargs.get('id')
 
         if id is not None:
@@ -126,7 +126,7 @@ class Query(ObjectType):
     def resolve_questions(self, info, **kwargs):
         return Question.objects.all()
     
-    def resolve_Reponses(self, info, **kwargs):
+    def resolve_reponses(self, info, **kwargs):
         return Reponse.objects.all()
 
     def resolve_Resultats(self, info, **kwargs):

@@ -47,8 +47,10 @@ def courses(request):
 
 @login_required(login_url='connect/')
 def resultat(request):
-    
-    data={}
+    resut = Resultat.objects.all().order_by('-id')[:1]
+    data={
+        'resut': resut
+    }
     return render(request, 'pages/quiz/resultat.html',data)
 
 @login_required(login_url='connect/')
@@ -63,28 +65,43 @@ def quiz(request,id):
 def quest(request,id):
     
     quiz = Quiz.objects.filter(statut=True)
-    somme = Reponse.objects.filter(question__id= id).aggregate(score = Sum('score'))
+    totalquest = Quiz.objects.filter(statut=True).count()
+    somme = Question.objects.filter(statut=True).aggregate(point = Sum('point'))
 
-    print("somme = ", somme['score'])
-    somme = somme['score']
+    print("totalquest = ", totalquest)
+    point_total = somme['point']
     data={
         'quiz': quiz,
-        'somme': somme,
+        'totalquest':totalquest,
+        'point_total': point_total,
     }
     return render(request, 'pages/quiz/quiz.html', data )
 
-def loadquest(request):
+def senddata(request):
+    send= False
     postdata = json.loads(request.body.decode('utf-8'))
-    id = postdata['id']
-    print("")
-    print(id)
-    props = Proposition.objects.filter(question__id = id)
-    reponse = Reponse.objects.filter(question__id = id)
+    # if user.is_authenticated:
+    points = postdata['point']
+    taux = postdata['taux']
+    util = User.objects.get(username='john')
+    quiz = Quiz.objects.get(id=1)
+    try:
+        result = Resultat()
+        result.quiz_id = quiz
+        result.user_id = util
+        result.note = points
+        result.taux = taux
+        result.save()
+        send= True
+    except:
+        print("erreur deregidstre")
+        send= False
     datas = {
-        'props': 'props',
-        'reponse': 'reponse'
+    'send': send,
     }
     return JsonResponse(datas, safe=False)
+
+
 
 def inscription(request):
     
