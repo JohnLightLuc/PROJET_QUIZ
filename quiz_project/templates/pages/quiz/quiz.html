@@ -18,18 +18,13 @@
                     <div class="col-md-8">
                         <h2>Composition</h2><br><br>
                         <h3>Sujets</h3><br><br>
-                        {{ point_total }}
-                        <p> total questions = {{ totalquest }}</p>
+                        
                         <div v-if="! isstart" >
                             <p> Commencer le quiz en selectionnannt !</p>
                             
                         </div>
                         <div v-if="isstart" >
                                                  
-                            <p> Reponse ${ reponse }</p>
-                            <p>Note final = ${note_final} </p>
-                            <p>Taux = ${ taux } </p>
-                              <p> notes =  ${ notes }</p>
                             <div >
                                 ${ question.description }  
                             </div>
@@ -94,7 +89,7 @@
                         </div>
                         <div class="row">
                             <div style="text-align: center;">
-                                    <a href="#" v-on:click="sendata" class="btn btn-primary">Terminer</a>
+                                    <button v-on:click="sendata" class="btn btn-primary">Terminer</button>
                             </div> 
                         </div>  
                             
