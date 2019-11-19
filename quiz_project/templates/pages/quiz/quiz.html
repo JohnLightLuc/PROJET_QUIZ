@@ -17,19 +17,19 @@
                     
                     <div class="col-md-8">
                         <h2>Composition</h2><br><br>
-                        <h3>Sujets</h3><br><br>
-                        
+                        <h3>Sujets</h3>
+                        <br>
                         <div v-if="! isstart" >
                             <p> Commencer le quiz en selectionnannt !</p>
                             
                         </div>
                         <div v-if="isstart" >
-                                                 
+                                     
                             <div >
                                 ${ question.description }  
                             </div>
                           
-                        </div>
+                        </div><br>
                                 <h3>Propositions</h3> 
                                 <br>
                                 <div v-if="! isstart" >
@@ -39,25 +39,25 @@
                                 <div v-if="isstart">
                                 
                                     <div class="form-check">
-                                      <input v-on:click='mesreponse(correction.id)' class="form-check-input" v-bind:value=" proposition.propsition1" type="radio" name="reponse" id="prop1" v-model="reponse" >
+                                      <input v-on:change='mesreponse(correction.id)' class="form-check-input" v-bind:value=" proposition.propsition1" type="radio" name="reponse" id="prop1" v-model="reponse" >
                                       <label class="form-check-label" for="prop1">
                                         ${ proposition.propsition1 }
                                       </label>
                                     </div>
                                     <div class="form-check">
-                                      <input v-on:click='mesreponse(correction.id)' class="form-check-input" v-bind:value="proposition.propsition2" type="radio" name="reponse" id="prop2" v-model="reponse" >
+                                      <input v-on:change='mesreponse(correction.id)' class="form-check-input" v-bind:value="proposition.propsition2" type="radio" name="reponse" id="prop2" v-model="reponse" >
                                       <label class="form-check-label" for="prop2">
                                         ${ proposition.propsition2 }
                                       </label>
                                     </div>
                                     <div class="form-check">
-                                      <input v-on:click='mesreponse(correction.id)' class="form-check-input" v-bind:value="proposition.propsition3 " type="radio" name="reponse" id="prop3" v-model="reponse" >
+                                      <input v-on:change='mesreponse(correction.id)' class="form-check-input" v-bind:value="proposition.propsition3 " type="radio" name="reponse" id="prop3" v-model="reponse" >
                                       <label class="form-check-label" for="prop3">
                                         ${ proposition.propsition3 } 
                                       </label>
                                     </div>
                                     <div  class="form-check">
-                                      <input v-on:click='mesreponse(correction.id)' class="form-check-input"v-bind:value="proposition.propsition5" type="radio" name="reponse" id="prop4" v-model="reponse" >
+                                      <input v-on:change='mesreponse(correction.id)' class="form-check-input"v-bind:value="proposition.propsition5" type="radio" name="reponse" id="prop4" v-model="reponse" >
                                       <label class="form-check-label" for="prop4">
                                         ${ proposition.propsition5 }
                                       </label>
@@ -118,10 +118,11 @@
         
                                 isregister: false,
                                 isstart : false,
- 
+                                id_quiz : {{ quiz_id }},
                                 reponse : '',
                                 result: '',
                                 essai : "tout passe bien",
+                                base_url : 'http://127.0.0.1:8000/',
                                 proposition: '',
                                 question: '',
                                 correction : '',
@@ -137,7 +138,7 @@
                                    
                                     axios.defaults.xsrfCookieName = 'csrftoken'
                                     axios.defaults.xsrfHeaderName = 'X-CSRFToken'
-                                    axios.post('http://127.0.0.1:8000/graphql/', {
+                                    axios.post(this.base_url + 'graphql/', {
                                       query: `
                                         query {
                                           propostion(id:${id}){
@@ -179,9 +180,8 @@
                                 },
                                 mesreponse : function(id){
                                     var i = id-1
-                                    
-                                    if (this.reponse == this.correction.reponse ){
-
+                                   
+                                    if ( this.reponse == this.correction.reponse ){
                                         this.notes[i] = this.correction.score
                                     }else{
 
@@ -213,14 +213,15 @@
                                     this.calcul({{ totalquest }})
                                     axios.defaults.xsrfCookieName = 'csrftoken'
                                     axios.defaults.xsrfHeaderName = 'X-CSRFToken'
-                                    axios.post('http://127.0.0.1:8000/quiz/sender/', {
+                                    axios.post(this.base_url+'quiz/sender/', {
                                     point : this.note_final,
-                                    taux : this.taux
+                                    taux : this.taux,
+                                    id : this.id_quiz
                                         }).then(response => {
                                             console.log(response)
                                             this.taux = 0
                                             this.note_final = 0
-                                            window.location.replace("http://127.0.0.1:8000/quiz/resultat");
+                                            window.location.replace(this.base_url+"quiz/resultat");
                                         })
                                         .catch((err) => {
                                             console.log('erreur')
