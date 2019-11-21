@@ -20,7 +20,7 @@ class Level(models.Model):
     date_add = models.DateTimeField ( auto_now_add = True )
     date_update = models.DateTimeField ( auto_now = True )
     statut = models.BooleanField ( default = True )
-
+    models.TimeField(_(""), auto_now=False, auto_now_add=False)
 
 class Stage(models.Model):
     nom = models.CharField(max_length=50)
