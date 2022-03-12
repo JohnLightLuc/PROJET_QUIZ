@@ -16,7 +16,7 @@ graphene-django==2.6.0
 graphql-core==2.2.1
 graphql-relay==2.0.0
 jsmin==2.2.2
-Pillow==6.2.1
+Pillow==9.0.1
 promise==2.2.1
 python-utils==2.3.0
 pytz==2019.3
